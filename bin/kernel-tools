@@ -1,0 +1,9 @@
+#!/bin/bash
+
+export KERNEL=$PWD
+
+SCRIPT=$(readlink -f $0)
+KERNEL_TOOLS_PATH=`dirname $SCRIPT`/../
+cd $KERNEL_TOOLS_PATH
+
+task $@

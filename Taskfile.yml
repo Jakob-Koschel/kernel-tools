@@ -1,0 +1,66 @@
+version: '3'
+
+dotenv: ['.env']
+
+env:
+  ROOT: '{{.PWD}}'
+  GDB: gdb
+  INITRAMFS: '{{.ROOT}}/out/initramfs.cpio'
+
+  SYZKALLER_CFG: '{{.ROOT}}/syzkaller.cfg'
+  SYZKALLER_IMG: '{{.ROOT}}/out/syzkaller-image'
+  SYZKALLER_PREFIX: '{{.ROOT}}/syzkaller'
+  SYZKALLER_BIN: '{{.ROOT}}/syzkaller/bin'
+  SYZKALLER_SSH_PORT: 1567
+
+  GDB_PORT: 45457
+
+  LLVMPREFIX: '{{.ROOT}}/llvm-project/build'
+  LLVM_COMPILER_PATH: '{{.ROOT}}/llvm-project/build/bin'
+  CLANG: '{{.ROOT}}/llvm-project/build/bin/clang'
+  CC: '{{.ROOT}}/llvm-project/build/bin/clang'
+  CXX: '{{.ROOT}}/llvm-project/build/bin/clang++'
+  OPT: '{{.ROOT}}/llvm-project/build/bin/opt'
+  LD: '{{.ROOT}}/llvm-project/build/bin/ld.lld'
+  LLVM_NM: '{{.ROOT}}/llvm-project/build/bin/llvm-nm'
+  LLVM_AR: '{{.ROOT}}/llvm-project/build/bin/llvm-ar'
+  LLVM_STRIP: '{{.ROOT}}/llvm-project/build/bin/llvm-strip'
+  LLVM_OBJCOPY: '{{.ROOT}}/llvm-project/build/bin/llvm-objcopy'
+  LLVM_OBJDUMP: '{{.ROOT}}/llvm-project/build/bin/llvm-objdump'
+  LLVM_READELF: '{{.ROOT}}/llvm-project/build/bin/llvm-readelf'
+  LLVM_LINK: '{{.ROOT}}/llvm-project/build/bin/llvm-link'
+  LLVM_CONFIG: '{{.ROOT}}/llvm-project/build/bin/llvm-config'
+
+  NPROC: 16
+
+  ENABLE_KVM: 1
+  # ENABLE_KASAN: 1
+  # ENABLE_SYZKALLER: 1
+  # ENABLE_DEBUG: 1
+  # ENABLE_GDB_BUILD: 1
+
+includes:
+  initramfs:  ./taskfiles/TasksInitramfs.yml
+  kernel:     ./taskfiles/TasksKernel.yml
+  llvm:       ./taskfiles/TasksLLVM.yml
+  passes:     ./taskfiles/TasksPasses.yml
+  qemu:       ./taskfiles/TasksQemu.yml
+  syzkaller:  ./taskfiles/TasksSyzkaller.yml
+
+tasks:
+  qemu:
+    desc: run the kernel within qemu
+    cmds:
+      - task: qemu:qemu
+
+  syz:
+    desc: run the syzkaller image within qemu
+    cmds:
+      - task: qemu:syzkaller
+
+  build:
+    desc: build static libraries and passes
+    cmds:
+      - mkdir -p ${KERNEL_LLVM_PASSES}/build
+      - cd ${KERNEL_LLVM_PASSES}/build && cmake ..
+      - cd ${KERNEL_LLVM_PASSES}/build && make -j${NPROC}

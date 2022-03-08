@@ -1,0 +1,10 @@
+version: '3'
+
+tasks:
+  run:
+    desc: run a certain llvm pass on the kernel
+    cmds:
+      - task kernel:bzImage
+    vars:
+      ADDITIONAL_KBUILD_LDFLAGS:
+        sh: KERNEL_LLVM_PASSES={{.KERNEL_LLVM_PASSES}} scripts/patches-to-ldflags.sh "{{.CLI_ARGS}}"
