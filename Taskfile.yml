@@ -16,20 +16,19 @@ env:
   GDB_PORT: 45457
 
   LLVMPREFIX: '{{.ROOT}}/llvm-project/build'
-  LLVM_COMPILER_PATH: '{{.ROOT}}/llvm-project/build/bin'
-  CLANG: '{{.ROOT}}/llvm-project/build/bin/clang'
-  CC: '{{.ROOT}}/llvm-project/build/bin/clang'
-  CXX: '{{.ROOT}}/llvm-project/build/bin/clang++'
-  OPT: '{{.ROOT}}/llvm-project/build/bin/opt'
-  LD: '{{.ROOT}}/llvm-project/build/bin/ld.lld'
-  LLVM_NM: '{{.ROOT}}/llvm-project/build/bin/llvm-nm'
-  LLVM_AR: '{{.ROOT}}/llvm-project/build/bin/llvm-ar'
-  LLVM_STRIP: '{{.ROOT}}/llvm-project/build/bin/llvm-strip'
-  LLVM_OBJCOPY: '{{.ROOT}}/llvm-project/build/bin/llvm-objcopy'
-  LLVM_OBJDUMP: '{{.ROOT}}/llvm-project/build/bin/llvm-objdump'
-  LLVM_READELF: '{{.ROOT}}/llvm-project/build/bin/llvm-readelf'
-  LLVM_LINK: '{{.ROOT}}/llvm-project/build/bin/llvm-link'
-  LLVM_CONFIG: '{{.ROOT}}/llvm-project/build/bin/llvm-config'
+  CLANG: '{{.LLVMPREFIX}}/bin/clang'
+  CC: '{{.LLVMPREFIX}}/bin/clang'
+  CXX: '{{.LLVMPREFIX}}/bin/clang++'
+  OPT: '{{.LLVMPREFIX}}/bin/opt'
+  LD: '{{.LLVMPREFIX}}/bin/ld.lld'
+  LLVM_NM: '{{.LLVMPREFIX}}/bin/llvm-nm'
+  LLVM_AR: '{{.LLVMPREFIX}}/bin/llvm-ar'
+  LLVM_STRIP: '{{.LLVMPREFIX}}/bin/llvm-strip'
+  LLVM_OBJCOPY: '{{.LLVMPREFIX}}/bin/llvm-objcopy'
+  LLVM_OBJDUMP: '{{.LLVMPREFIX}}/bin/llvm-objdump'
+  LLVM_READELF: '{{.LLVMPREFIX}}/bin/llvm-readelf'
+  LLVM_LINK: '{{.LLVMPREFIX}}/bin/llvm-link'
+  LLVM_CONFIG: '{{.LLVMPREFIX}}/bin/llvm-config'
 
   NPROC: 16
 
