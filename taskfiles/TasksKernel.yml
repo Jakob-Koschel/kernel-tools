@@ -30,7 +30,7 @@ tasks:
   clean-bzImage:
     desc: clean bzImage to trigger recreation once vmlinux got replaced
     cmds:
-      - cd {{.KERNEL} && rm -rf arch/x86/boot/bzImage arch/x86/boot/setup.bin arch/x86/boot/vmlinux.bin arch/x86/boot/zoffset.h arch/x86/boot/compressed/vmlinux arch/x86/boot/compressed/vmlinux.bin vmlinux vmlinux.o .thinlto-cache
+      - cd {{.KERNEL}} && rm -rf arch/x86/boot/bzImage arch/x86/boot/setup.bin arch/x86/boot/vmlinux.bin arch/x86/boot/zoffset.h arch/x86/boot/compressed/vmlinux arch/x86/boot/compressed/vmlinux.bin vmlinux vmlinux.o .thinlto-cache
 
   config:
     desc: apply custom kernel config required
