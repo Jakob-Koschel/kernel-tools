@@ -1,21 +1,8 @@
 version: '3'
 
-dotenv: ['.env']
+dotenv: ['.env', '.env.default']
 
-env:
-  ROOT: '{{.PWD}}'
-  GDB: gdb
-  INITRAMFS: '{{.ROOT}}/out/initramfs.cpio'
-
-  SYZKALLER_CFG: '{{.ROOT}}/syzkaller.cfg'
-  SYZKALLER_IMG: '{{.ROOT}}/out/syzkaller-image'
-  SYZKALLER_PREFIX: '{{.ROOT}}/syzkaller'
-  SYZKALLER_BIN: '{{.ROOT}}/syzkaller/bin'
-  SYZKALLER_SSH_PORT: 1567
-
-  GDB_PORT: 45457
-
-  LLVMPREFIX: '{{.ROOT}}/llvm-project/build'
+vars:
   CLANG: '{{.LLVMPREFIX}}/bin/clang'
   CC: '{{.LLVMPREFIX}}/bin/clang'
   CXX: '{{.LLVMPREFIX}}/bin/clang++'
@@ -29,14 +16,6 @@ env:
   LLVM_READELF: '{{.LLVMPREFIX}}/bin/llvm-readelf'
   LLVM_LINK: '{{.LLVMPREFIX}}/bin/llvm-link'
   LLVM_CONFIG: '{{.LLVMPREFIX}}/bin/llvm-config'
-
-  NPROC: 16
-
-  ENABLE_KVM: 1
-  # ENABLE_KASAN: 1
-  # ENABLE_SYZKALLER: 1
-  # ENABLE_DEBUG: 1
-  # ENABLE_GDB_BUILD: 1
 
 includes:
   initramfs:  ./taskfiles/TasksInitramfs.yml

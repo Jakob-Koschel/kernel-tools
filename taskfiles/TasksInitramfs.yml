@@ -24,7 +24,7 @@ tasks:
   initramfs:
     dir: out/initramfs
     cmds:
-      - cp $ROOT/scripts/initramfs/init .
+      - cp {{.ROOT}}/scripts/initramfs/init .
       - mkdir -pv {bin,sbin,etc,proc,sys,usr/{bin,sbin}}
       - cp -av ../busybox-1.33.0/build/_install/* .
 
@@ -33,4 +33,4 @@ tasks:
     cmds:
       - mkdir -pv {bin,dev,sbin,etc,proc,sys/kernel/debug,usr/{bin,sbin},lib,lib64,mnt/root,root}
       - find . -print0 | cpio --null -ov --format=newc > initramfs.cpio
-      - mv initramfs.cpio $INITRAMFS
+      - mv initramfs.cpio {{.INITRAMFS}}
