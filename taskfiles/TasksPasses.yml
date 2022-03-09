@@ -4,6 +4,7 @@ tasks:
   run:
     desc: run a certain llvm pass on the kernel
     cmds:
+      - task build
       - task kernel:clean-bzImage
       - task kernel:bzImage
     vars:
