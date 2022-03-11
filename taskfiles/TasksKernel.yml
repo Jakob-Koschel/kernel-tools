@@ -1,7 +1,7 @@
 version: '3'
 
 env:
-  KBUILD_LDFLAGS: "-m elf_x86_64 -plugin-opt=-stack-alignment=8 --thinlto-cache-dir=.thinlto-cache -mllvm -import-instr-limit=5 -plugin-opt=-warn-stack-size=2048 {{.ADDITIONAL_KBUILD_LDFLAGS}}"
+  KBUILD_LDFLAGS: "-m elf_x86_64 -plugin-opt=-stack-alignment=8 --thinlto-cache-dir=.thinlto-cache -mllvm -import-instr-limit=5 -plugin-opt=-warn-stack-size=2048 -plugin-opt=legacy-pass-manager {{.ADDITIONAL_KBUILD_LDFLAGS}}"
 
 tasks:
   make:
@@ -43,6 +43,7 @@ tasks:
       - cd {{.KERNEL}} && scripts/config --disable CONFIG_LTO_NONE
       # disable thinLTO for now
       # - cd {{.KERNEL}} && scripts/config --enable CONFIG_LTO_CLANG_THIN
+      - cd {{.KERNEL}} && scripts/config --enable CONFIG_LTO_CLANG_FULL
       - \[ -z "$ENABLE_GDB_BUILD" \] || task kernel:config-gdb-build
       - \[ -z "$ENABLE_KASAN" \] ||     task kernel:config-kasan
       - \[ -z "$ENABLE_DEBUG" \] ||     task kernel:config-debug
