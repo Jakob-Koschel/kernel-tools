@@ -41,7 +41,8 @@ tasks:
       - cd {{.KERNEL}} && scripts/config --disable CONFIG_RANDOMIZE_BASE
       # ENABLE LTO
       - cd {{.KERNEL}} && scripts/config --disable CONFIG_LTO_NONE
-      - cd {{.KERNEL}} && scripts/config --enable CONFIG_LTO_CLANG_THIN
+      # disable thinLTO for now
+      # - cd {{.KERNEL}} && scripts/config --enable CONFIG_LTO_CLANG_THIN
       - \[ -z "$ENABLE_GDB_BUILD" \] || task kernel:config-gdb-build
       - \[ -z "$ENABLE_KASAN" \] ||     task kernel:config-kasan
       - \[ -z "$ENABLE_DEBUG" \] ||     task kernel:config-debug
