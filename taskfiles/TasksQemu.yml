@@ -12,10 +12,10 @@ tasks:
     cmds:
       - python3 scripts/qemu/qemu.py --target qemu --interactive --gdb
 
-  # syzkaller:
-  #   desc: run syzkaller image in qemu
-  #   cmds:
-  #     - python3 scripts/qemu/qemu.py --whitelist t --interactive
+  syzkaller:
+    desc: run syzkaller image in qemu
+    cmds:
+      - python3 scripts/qemu/qemu.py --interactive
 
   # syzkaller-gdb:
   #   desc: run syzkaller image in qemu with attaching gdb
