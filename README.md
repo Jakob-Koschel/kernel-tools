@@ -80,3 +80,5 @@ The compiled .so of the pass with the name <pass-name1> will be expected in:
 ```
 ${KERNEL_LLVM_PASSES}/build/pass-name1/LLVMPassName1Pass.so
 ```
+  
+You can get inspired by [llvm-passes](https://github.com/Jakob-Koschel/llvm-passes) on how such a repository can be setup.
