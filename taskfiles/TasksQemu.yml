@@ -17,17 +17,7 @@ tasks:
     cmds:
       - python3 scripts/qemu/qemu.py --interactive
 
-  # syzkaller-gdb:
-  #   desc: run syzkaller image in qemu with attaching gdb
-  #   cmds:
-  #     - python3 scripts/qemu/qemu.py --whitelist t --interactive --gdb
-
-  # interact:
-  #   desc: run syzkaller image with testcases copied into the vm
-  #   cmds:
-  #     - python3 scripts/qemu/qemu.py --testprogs {{.TESTCASES}} --interactive | tee out/interact-log
-
-  # interact-gdb:
-  #   desc: run syzkaller image with testcases copied into the vm with attaching gdb
-  #   cmds:
-  #     - python3 scripts/qemu/qemu.py --testprogs {{.TESTCASES}} --interactive --gdb | tee out/interact-log
+  syzkaller-gdb:
+    desc: run syzkaller image in qemu with attaching gdb
+    cmds:
+      - python3 scripts/qemu/qemu.py --interactive --gdb

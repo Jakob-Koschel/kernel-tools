@@ -8,15 +8,8 @@ tasks:
   run:
     desc: run syzkaller fuzzer and record execution statistics
     cmds:
-      - task syzkaller:prep-run
       - rm -f {{.ROOT}}/out/syzkaller-bench
       - $SYZKALLER_BIN/syz-manager -config={{.SYZKALLER_CFG}} --bench {{.ROOT}}/out/syzkaller-bench
-
-  prep-run:
-    cmds:
-      - test {{.SYZKALLER_LOGS_PATH}}
-      - rm -rf {{.SYZKALLER_LOGS_PATH}}
-      - mkdir -p {{.SYZKALLER_LOGS_PATH}}
 
   build:
     desc: build syzkaller
@@ -25,8 +18,7 @@ tasks:
       SYZKALLER_PREFIX: 'SYZKALLER_PREFIX: $SYZKALLER_PREFIX'
       SYZKALLER_WORKDIR: 'SYZKALLER_WORKDIR: {{.ROOT}}/out/syzkaller-workdir'
       SYZKALLER_IMG: 'SYZKALLER_IMG: $SYZKALLER_IMG'
-      SYZKALLER_LOGS_PATH: 'SYZKALLER_LOGS_PATH: $SYZKALLER_LOGS_PATH'
-      TEMPLATE_DATA: "{{.KERNEL}}\n{{.SYZKALLER_PREFIX}}\n{{.SYZKALLER_WORKDIR}}\n{{.SYZKALLER_IMG}}\n{{.SYZKALLER_LOGS_PATH}}"
+      TEMPLATE_DATA: "{{.KERNEL}}\n{{.SYZKALLER_PREFIX}}\n{{.SYZKALLER_WORKDIR}}\n{{.SYZKALLER_IMG}}"
     cmds:
       - go get github.com/cbroglie/mustache/...
       - echo "{{.TEMPLATE_DATA}}" | $GOPATH/bin/mustache $ROOT/syzkaller.cfg.template > $SYZKALLER_CFG
