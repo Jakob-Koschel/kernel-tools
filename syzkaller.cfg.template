@@ -14,6 +14,6 @@
 			"kernel": "{{KERNEL}}/arch/x86/boot/bzImage",
 			"cpu": 1,
 			"mem": 4096,
-			"cmdline" : "rootfstype=ext4 rcu_nocbs=0 nosmp nokaslr modules=sd-mod,usb-storage,ext4 ignore_loglevel maxcpus=1 nmi_watchdog=0",
+			"cmdline" : "rootfstype=ext4 rcu_nocbs=0 nosmp nokaslr modules=sd-mod,usb-storage,ext4 ignore_loglevel maxcpus=1 nmi_watchdog=0"
 		}
 }
