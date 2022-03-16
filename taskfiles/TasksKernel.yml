@@ -72,7 +72,7 @@ tasks:
       - cd {{.KERNEL}} && scripts/config --disable CONFIG_KASAN_INLINE
       - cd {{.KERNEL}} && scripts/config --disable CONFIG_TEST_KASAN
       # if compiling with clang, kernel disables KASAN stack instrumentation by default because of stack size issues
-      - cd {{.KERNEL}} && scripts/config --enable CONFIG_KASAN_STACK_ENABLE
+      - cd {{.KERNEL}} && scripts/config --enable CONFIG_KASAN_STACK
       - cd {{.KERNEL}} && scripts/config --disable CONFIG_KASAN_VMALLOC
       - cd {{.KERNEL}} && scripts/config --disable CONFIG_KASAN_MODULE_TEST
 
