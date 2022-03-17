@@ -38,6 +38,10 @@ expect(qemu, PROMPT, timeout=None)
 
 qemu.sendline('mount -t debugfs none /sys/kernel/debug')
 expect(qemu, PROMPT)
+# mount the shared folder if present
+if os.environ.get('VM_SHARED_FOLDER', None) is not None:
+    qemu.sendline('mount /dev/sdb1 /mnt')
+    expect(qemu, PROMPT)
 sleep(1)
 
 if args.interactive:

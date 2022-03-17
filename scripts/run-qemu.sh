@@ -30,6 +30,7 @@ qemu-system-x86_64 \
   ${NET1:+ -net ${NET1}} \
   ${NET2:+ -net ${NET2}} \
   ${ENABLE_KVM:+ -enable-kvm} \
+  ${VM_SHARED_FOLDER:+ -hdb fat:"${VM_SHARED_FOLDER}"} \
   -display none \
   -smp 1 \
   -cpu qemu64,+smep,+smap \
