@@ -73,6 +73,7 @@ tasks:
       - cd {{.KERNEL}} && scripts/config --disable CONFIG_TEST_KASAN
       # if compiling with clang, kernel disables KASAN stack instrumentation by default because of stack size issues
       - cd {{.KERNEL}} && scripts/config --enable CONFIG_KASAN_STACK
+      - cd {{.KERNEL}} && scripts/config --set-val CONFIG_STACK_HASH_ORDER 20
       - cd {{.KERNEL}} && scripts/config --disable CONFIG_KASAN_VMALLOC
       - cd {{.KERNEL}} && scripts/config --disable CONFIG_KASAN_MODULE_TEST
 
@@ -100,3 +101,4 @@ tasks:
       - cd {{.KERNEL}} && scripts/config --disable CONFIG_OCFS2_FS
       - cd {{.KERNEL}} && scripts/config --disable CONFIG_DLM
       - cd {{.KERNEL}} && scripts/config --set-val CONFIG_KCOV_IRQ_AREA_SIZE 0x40000
+      - cd {{.KERNEL}} && scripts/config --disable CONFIG_MOST
