@@ -6,17 +6,17 @@ if [ -z $1 ]; then
 fi
 
 PASSES_ARRAY=( "$@" )
-LD_FLAGS=
+CFLAGS=
 
 for (( n=0; n < ${#PASSES_ARRAY[*]}; n++))
 do
   PASS=${PASSES_ARRAY[n]}
-  if [[ "$PASS" == "lto:"* ]]; then
-    PASS=${PASS#"lto:"}
+  if [[ "$PASS" == "compile:"* ]]; then
+    PASS=${PASS#"compile:"}
     # extremely ugly way to turn pass-name into PassName
     CAMEL_CASE_PASS=$(sed -E 's/-([a-z])/\U\1/g' <<< $PASS | sed -e "s/\b\(.\)/\u\1/g")
-    LD_FLAGS+=" -mllvm=-load=${KERNEL_LLVM_PASSES}/build/${PASS}/LLVM${CAMEL_CASE_PASS}Pass.so"
+    CFLAGS+=" -Xclang -load -Xclang ${KERNEL_LLVM_PASSES}/build/${PASS}/LLVM${CAMEL_CASE_PASS}Pass.so"
   fi
 done
 
-echo $LD_FLAGS
+echo $CFLAGS
