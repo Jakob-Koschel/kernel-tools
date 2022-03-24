@@ -78,7 +78,7 @@ task passes:run -- pass1:pass2
 The directory `KERNEL_LLVM_PASSES` is pointing to needs to follow a certain patter right now:
 The compiled .so of the pass with the name <pass-name1> will be expected in:
 ```
-${KERNEL_LLVM_PASSES}/build/pass-name1/LLVMPassName1Pass.so
+${KERNEL_LLVM_PASSES}/build/passes/pass-name1/LLVMPassName1Pass.so
 ```
-  
+
 You can get inspired by [llvm-passes](https://github.com/Jakob-Koschel/llvm-passes) on how such a repository can be setup.

@@ -15,7 +15,7 @@ do
     PASS=${PASS#"lto:"}
     # extremely ugly way to turn pass-name into PassName
     CAMEL_CASE_PASS=$(sed -E 's/-([a-z])/\U\1/g' <<< $PASS | sed -e "s/\b\(.\)/\u\1/g")
-    LD_FLAGS+=" -mllvm=-load=${KERNEL_LLVM_PASSES}/build/${PASS}/LLVM${CAMEL_CASE_PASS}Pass.so"
+    LD_FLAGS+=" -mllvm=-load=${KERNEL_LLVM_PASSES}/build/passes/${PASS}/LLVM${CAMEL_CASE_PASS}Pass.so"
   fi
 done
 
