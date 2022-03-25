@@ -13,5 +13,4 @@ tasks:
         sh: KERNEL_LLVM_PASSES={{.KERNEL_LLVM_PASSES}} scripts/passes-to-ldflags.sh {{.CLI_ARGS}}
       ADDITIONAL_CLANG_FLAGS:
         sh: KERNEL_LLVM_PASSES={{.KERNEL_LLVM_PASSES}} scripts/passes-to-cflags.sh {{.CLI_ARGS}}
-      KBUILD_VMLINUX_OBJS:
-        sh: ls {{.KERNEL_LLVM_PASSES}}/build/runtime/lib*.a
+      ADDITIONAL_KBUILD_VMLINUX_OBJS: "{{.KERNEL_LLVM_PASSES}}/build/runtime/lib*.a"

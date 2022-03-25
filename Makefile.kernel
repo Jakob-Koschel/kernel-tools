@@ -11,10 +11,13 @@ print-KBUILD_CFLAGS: ; $(info ${KBUILD_CFLAGS})
 .PHONY: print-KBUILD_LDFLAGS
 print-KBUILD_LDFLAGS: ; $(info ${KBUILD_LDFLAGS})
 
+ifdef ADDITIONAL_KBUILD_LDFLAGS
+KBUILD_LDFLAGS += ${ADDITIONAL_KBUILD_LDFLAGS}
+endif
 
-# TODO: only do this if runtime should be enabled
-ifdef KERNEL_LLVM_PASSES
-KBUILD_VMLINUX_OBJS += ${KERNEL_LLVM_PASSES}/build/runtime/lib*.a
+ifdef ADDITIONAL_KBUILD_VMLINUX_OBJS
+# use realpath to make sure generate_initcall_order.pl works properly
+KBUILD_VMLINUX_OBJS += $(shell realpath --relative-to . $(ADDITIONAL_KBUILD_VMLINUX_OBJS))
 export KBUILD_VMLINUX_OBJS
 
 vmlinux-deps := $(KBUILD_LDS) $(KBUILD_VMLINUX_OBJS) $(KBUILD_VMLINUX_LIBS)
