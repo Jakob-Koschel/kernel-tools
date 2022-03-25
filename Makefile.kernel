@@ -1,0 +1,22 @@
+include Makefile
+
+# This Makefile can be used to overwrite certain parts of the kernel Makefile
+# in this case to add runtimes to KBUILD_VMLINUX_OBJS or LTO passes to KBUILD_LDFLAGS
+
+# used to print the KBUILD_CFLAGS the kernel is using
+.PHONY: print-KBUILD_CFLAGS
+print-KBUILD_CFLAGS: ; $(info ${KBUILD_CFLAGS})
+
+# used to print the KBUILD_LDFLAGS the kernel is using
+.PHONY: print-KBUILD_LDFLAGS
+print-KBUILD_LDFLAGS: ; $(info ${KBUILD_LDFLAGS})
+
+
+# TODO: only do this if runtime should be enabled
+ifdef KERNEL_LLVM_PASSES
+KBUILD_VMLINUX_OBJS += ${KERNEL_LLVM_PASSES}/build/runtime/lib*.a
+export KBUILD_VMLINUX_OBJS
+
+vmlinux-deps := $(KBUILD_LDS) $(KBUILD_VMLINUX_OBJS) $(KBUILD_VMLINUX_LIBS)
+endif
+

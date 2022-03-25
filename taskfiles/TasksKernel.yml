@@ -8,7 +8,7 @@ tasks:
   make:
     desc: compile the linux kernel to create the final image
     cmds:
-      - cd {{.KERNEL}} && make -j${NPROC} LLVM=1 LLVM_IAS=1 CC={{.CLANG}} LD={{.LD}} AR={{.LLVM_AR}} NM={{.LLVM_NM}} STRIP={{.LLVM_STRIP}} OBJCOPY={{.LLVM_OBJCOPY}} OBJDUMP={{.LLVM_OBJDUMP}} READELF={{.LLVM_READELF}} HOSTCC={{.CLANG}} HOSTCXX={{.CXX}} HOSTAR={{.LLVM_AR}} HOSTLD={{.LD}} KBUILD_LDFLAGS="$KBUILD_LDFLAGS" KCFLAGS="$KCFLAGS" {{.CLI_ARGS}}
+      - cd {{.KERNEL}} && make -j${NPROC} LLVM=1 LLVM_IAS=1 CC={{.CLANG}} LD={{.LD}} AR={{.LLVM_AR}} NM={{.LLVM_NM}} STRIP={{.LLVM_STRIP}} OBJCOPY={{.LLVM_OBJCOPY}} OBJDUMP={{.LLVM_OBJDUMP}} READELF={{.LLVM_READELF}} HOSTCC={{.CLANG}} HOSTCXX={{.CXX}} HOSTAR={{.LLVM_AR}} HOSTLD={{.LD}} KBUILD_LDFLAGS="$KBUILD_LDFLAGS" KCFLAGS="$KCFLAGS" -f {{.ROOT}}/Makefile.kernel {{.CLI_ARGS}}
 
   bzImage:
     desc: compile the linux kernel to create the final image
