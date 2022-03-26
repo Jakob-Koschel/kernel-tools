@@ -39,6 +39,13 @@ tasks:
   build:
     desc: build static libraries and passes
     cmds:
-      - mkdir -p ${KERNEL_LLVM_PASSES}/build
-      - cd ${KERNEL_LLVM_PASSES}/build && cmake ..
-      - cd ${KERNEL_LLVM_PASSES}/build && make -j${NPROC}
+      - mkdir -p {{.REPO}}/build
+      - cd {{.REPO}}/build && cmake ..
+      - cd {{.REPO}}/build && make -j${NPROC}
+      # also call recursively for the other REPOS
+      - \[ -z `echo {{.NEXT_REPOS}}` \] || task REPOS={{.NEXT_REPOS}} build
+    vars:
+      REPO:
+        sh: \[ -z `echo {{.REPOS}}` \] || echo "{{.REPOS}}" | awk '{print $1}'
+      NEXT_REPOS:
+        sh: \[ -z `echo {{.REPOS}}` \] || echo "{{.REPOS}}" | awk '{print $2}'

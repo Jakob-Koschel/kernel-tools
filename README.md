@@ -6,7 +6,7 @@ To run it you need to set the following environment variables in your shell or i
 
 * `LLVMPREFIX`: by default points to the `llvm-project` submodule, you can overwrite it with your own or for example `usr/lib/llvm-12`
 * `KERNEL`: should point to the Linux kernel repo.
-* `KERNEL_LLVM_PASSES` should point to the directory holding the LLVM LTO passes
+* `REPOS` should point to the directories holding the LLVM LTO passes and runtimes (space separated).
 
 For convenience you can add `kernel-tools/bin` to your PATH and run any command executable with `task ...` from within the kernel repo.
 This is useful to for example start the kernel you are in directly in qemu.
@@ -78,10 +78,10 @@ task syzkaller:run
 task passes:run -- pass1:pass2
 ```
 
-The directory `KERNEL_LLVM_PASSES` is pointing to needs to follow a certain patter right now:
+The directories `REPOS` is pointing to needs to follow a certain patter right now:
 The compiled .so of the pass with the name <pass-name1> will be expected in:
 ```
-${KERNEL_LLVM_PASSES}/build/passes/pass-name1/LLVMPassName1Pass.so
+${REPO}/build/passes/pass-name1/LLVMPassName1Pass.so
 ```
 
 If you only want to link in the runtime component (for example to run your own code with `__initcall` at boot time)

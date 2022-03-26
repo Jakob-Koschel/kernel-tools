@@ -10,7 +10,10 @@ tasks:
       - task kernel:bzImage
     vars:
       ADDITIONAL_KBUILD_LDFLAGS:
-        sh: KERNEL_LLVM_PASSES={{.KERNEL_LLVM_PASSES}} scripts/passes-to-ldflags.sh {{.CLI_ARGS}}
+        sh: REPOS="{{.REPOS}}" scripts/passes-to-ldflags.sh {{.CLI_ARGS}}
       ADDITIONAL_CLANG_FLAGS:
-        sh: KERNEL_LLVM_PASSES={{.KERNEL_LLVM_PASSES}} scripts/passes-to-cflags.sh {{.CLI_ARGS}}
-      ADDITIONAL_KBUILD_VMLINUX_OBJS: "{{.KERNEL_LLVM_PASSES}}/build/runtime/lib*.a"
+        sh: REPOS="{{.REPOS}}" scripts/passes-to-cflags.sh {{.CLI_ARGS}}
+      ADDITIONAL_KBUILD_VMLINUX_OBJS:
+        # Append "/build/runtime/lib*.a" to all REPOS
+        # (https://stackoverflow.com/a/60011551/3888965)
+        sh: sed -E "s/(\S)(\s|$)/\1\/build\/runtime\/lib\*.a /g" <<< "{{.REPOS}}"
