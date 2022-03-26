@@ -50,6 +50,9 @@ gdb can automatically be attached with:
 scripts/gdb.sh
 ```
 
+QEMU's escape character has been remapped to CTRL-Q, you can stop the running QEMU instance after the boot with:
+```CTRL-Q x```
+
 ## Run syzkaller
 To fuzz the kernel with syzkaller you need to compile it first and create the necessary image:
 ```
@@ -81,4 +84,10 @@ The compiled .so of the pass with the name <pass-name1> will be expected in:
 ${KERNEL_LLVM_PASSES}/build/passes/pass-name1/LLVMPassName1Pass.so
 ```
 
-You can get inspired by [llvm-passes](https://github.com/Jakob-Koschel/llvm-passes) on how such a repository can be setup.
+If you only want to link in the runtime component (for example to run your own code with `__initcall` at boot time)
+you can simply run:
+```
+task passes:run -- .
+```
+
+You can get inspired by [kernel-tools-template-repo](https://github.com/Jakob-Koschel/kernel-tools-template-repo) on how such a repository can be setup.
