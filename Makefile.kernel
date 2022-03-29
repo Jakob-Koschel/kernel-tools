@@ -3,6 +3,14 @@ include Makefile
 # This Makefile can be used to overwrite certain parts of the kernel Makefile
 # in this case to add runtimes to KBUILD_VMLINUX_OBJS or LTO passes to KBUILD_LDFLAGS
 
+# used to print the NOSTDINC_FLAGS the kernel is using
+.PHONY: print-NOSTDINC_FLAGS
+print-NOSTDINC_FLAGS: ; $(info ${NOSTDINC_FLAGS})
+
+# used to print the LINUXINCLUDE the kernel is using
+.PHONY: print-LINUXINCLUDE
+print-LINUXINCLUDE: ; $(info ${LINUXINCLUDE})
+
 # used to print the KBUILD_CFLAGS the kernel is using
 .PHONY: print-KBUILD_CFLAGS
 print-KBUILD_CFLAGS: ; $(info ${KBUILD_CFLAGS})
