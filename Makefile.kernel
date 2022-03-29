@@ -5,18 +5,22 @@ include Makefile
 
 # used to print the NOSTDINC_FLAGS the kernel is using
 .PHONY: print-NOSTDINC_FLAGS
+.SILENT:
 print-NOSTDINC_FLAGS: ; $(info ${NOSTDINC_FLAGS})
 
 # used to print the LINUXINCLUDE the kernel is using
 .PHONY: print-LINUXINCLUDE
+.SILENT:
 print-LINUXINCLUDE: ; $(info ${LINUXINCLUDE})
 
 # used to print the KBUILD_CFLAGS the kernel is using
 .PHONY: print-KBUILD_CFLAGS
+.SILENT:
 print-KBUILD_CFLAGS: ; $(info ${KBUILD_CFLAGS})
 
 # used to print the KBUILD_LDFLAGS the kernel is using
 .PHONY: print-KBUILD_LDFLAGS
+.SILENT:
 print-KBUILD_LDFLAGS: ; $(info ${KBUILD_LDFLAGS})
 
 ifdef ADDITIONAL_KBUILD_LDFLAGS
