@@ -4,6 +4,7 @@
 # also also optionally to add more people as 'cc'.
 
 import sys, argparse, re, os
+from os.path import isfile, join
 import subprocess
 
 
@@ -26,8 +27,10 @@ def main():
     print(result.stdout.decode('utf-8'))
 
     if not args.no_print_patches:
-        subprocess.run('pygmentize -g -O style=native,linenos=1 ' + patches,
-                shell=True)
+        patchfiles = [f for f in os.listdir(args.patches) if isfile(join(args.patches, f))]
+        for patchfile in patchfiles:
+            subprocess.run('pygmentize -g -O style=native,linenos=1 ' + join(args.patches, patchfile),
+                    shell=True)
 
 
     result = subprocess.run('./scripts/get_maintainer.pl --norolestats ' + patches,
