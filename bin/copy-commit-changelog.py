@@ -63,7 +63,13 @@ for patch in args.patches:
             continue
         if line.startswith('Subject:'):
             # start = line.rfind('[') # used with kees/split-on-maintainer
-            start = line.rfind(':')+2
+            if line.count(':') == 1:
+                # only the ':' from 'Subject:' was found
+                # look for [PATCH ...] to keep instead
+                start = line.rfind(']')+2
+                print("[WARNING] no submodule prefix was found")
+            else:
+                start = line.rfind(':')+2
             subject_line = '{}{}\n'.format(line[:start], ''.join(subject))
             lines.append(subject_line)
             skip = True
