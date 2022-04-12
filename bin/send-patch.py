@@ -36,9 +36,11 @@ def main():
                     shell=True)
 
 
+    additional_cmds = []
     if args.to:
         to = args.to
         cc = ''
+        additional_cmds = ['--suppress-cc=all']
     else:
         result = subprocess.run('./scripts/get_maintainer.pl --norolestats ' + patches,
                 shell=True,
@@ -53,11 +55,10 @@ def main():
 
         cc = ', '.join(cc)
 
-    result = subprocess.run(
-            ['git', 'send-email',
-                '--to', to,
-                '--cc', cc,
-                args.patches])
+    cmd = ['git', 'send-email', '--to', to, '--cc', cc]
+    cmd.extend(additional_cmds)
+    cmd.append(args.patches)
+    result = subprocess.run(cmd)
 
 if __name__ == '__main__':
     main()
