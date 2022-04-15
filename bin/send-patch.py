@@ -12,6 +12,7 @@ def main():
     opts = argparse.ArgumentParser(description='call git send-email with correct maintainers')
     opts.add_argument('--patches', type=str, required=True, help='Patches to send')
     opts.add_argument('--cc', type=argparse.FileType('r'), help='Additional cc contacts')
+    opts.add_argument('--ignore-cc', type=argparse.FileType('r'), help='Contacts to be blacklisted from cc (can be used for no longer valid emails)')
     opts.add_argument('--no-print-patches', action='store_true')
     opts.add_argument('--to', help='If specified only send to "to"')
     args = opts.parse_args()
@@ -53,6 +54,11 @@ def main():
             with args.cc as file:
                 cc.extend(file.read().splitlines())
 
+        if args.ignore_cc:
+            ignore_cc = []
+            with args.ignore_cc as file:
+                ignore_cc.extend(file.read().splitlines())
+            cc = [x for x in cc if x not in ignore_cc]
         cc = ', '.join(cc)
 
     cmd = ['git', 'send-email', '--to', to, '--cc', cc]
