@@ -95,7 +95,7 @@ tasks:
       # if compiling with clang, kernel disables KASAN stack instrumentation by default because of stack size issues
       - cd {{.KERNEL}} && scripts/config --enable CONFIG_KASAN_STACK
       - cd {{.KERNEL}} && scripts/config --set-val CONFIG_STACK_HASH_ORDER 20
-      - cd {{.KERNEL}} && scripts/config --disable CONFIG_KASAN_VMALLOC
+      - cd {{.KERNEL}} && scripts/config --enable CONFIG_KASAN_VMALLOC
       - cd {{.KERNEL}} && scripts/config --disable CONFIG_KASAN_MODULE_TEST
 
   config-debug:
