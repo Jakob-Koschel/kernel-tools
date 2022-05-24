@@ -1,0 +1,54 @@
+From b8ffd6a16d8f55bd4c0594221719142c3dd8a0fe Mon Sep 17 00:00:00 2001
+From: Jakob Koschel <jakobkoschel@gmail.com>
+Date: Tue, 24 May 2022 13:43:20 +0200
+Subject: [PATCH syzkaller] allow running only HTTP server without fuzzing
+
+---
+ pkg/mgrconfig/config.go |  3 +++
+ syz-manager/html.go     | 12 ++++++++++--
+ 2 files changed, 13 insertions(+), 2 deletions(-)
+
+diff --git a/pkg/mgrconfig/config.go b/pkg/mgrconfig/config.go
+index 5d4a9f8f5..6d9e2b885 100644
+--- a/pkg/mgrconfig/config.go
++++ b/pkg/mgrconfig/config.go
+@@ -171,6 +171,9 @@ type Config struct {
+ 
+ 	// Implementation details beyond this point. Filled after parsing.
+ 	Derived `json:"-"`
++
++  // Only run HTTP interface, not the fuzzer (default: false).
++	OnlyHTTPInterface bool `json:"only_http"`
+ }
+ 
+ type Subsystem struct {
+diff --git a/syz-manager/html.go b/syz-manager/html.go
+index dc3e54519..1d740d333 100644
+--- a/syz-manager/html.go
++++ b/syz-manager/html.go
+@@ -58,12 +58,20 @@ func (mgr *Manager) initHTTP() {
+ 	mux.HandleFunc("/favicon.ico", func(w http.ResponseWriter, r *http.Request) {})
+ 
+ 	log.Logf(0, "serving http on http://%v", mgr.cfg.HTTP)
+-	go func() {
++
++  if (mgr.cfg.OnlyHTTPInterface) {
+ 		err := http.ListenAndServe(mgr.cfg.HTTP, handlers.CompressHandler(mux))
+ 		if err != nil {
+ 			log.Fatalf("failed to listen on %v: %v", mgr.cfg.HTTP, err)
+ 		}
+-	}()
++  } else {
++    go func() {
++      err := http.ListenAndServe(mgr.cfg.HTTP, handlers.CompressHandler(mux))
++      if err != nil {
++        log.Fatalf("failed to listen on %v: %v", mgr.cfg.HTTP, err)
++      }
++    }()
++  }
+ }
+ 
+ func (mgr *Manager) httpSummary(w http.ResponseWriter, r *http.Request) {
+-- 
+2.25.1
+
