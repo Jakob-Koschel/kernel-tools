@@ -14,6 +14,7 @@ if [[ $TYPE = "syzkaller" ]]; then
     NET1="nic,model=e1000"
     NET2="user,host=10.0.2.10,hostfwd=tcp::${SYZKALLER_SSH_PORT}-:22"
   fi
+  SYZKALLER_BINARIES="-hdb fat:${SYZKALLER_BIN}/linux_amd64"
 else
   RAMDISK="${INITRAMFS}"
   HDA=
@@ -30,7 +31,8 @@ qemu-system-x86_64 \
   ${NET1:+ -net ${NET1}} \
   ${NET2:+ -net ${NET2}} \
   ${ENABLE_KVM:+ -enable-kvm} \
-  ${VM_SHARED_FOLDER:+ -hdb fat:"${VM_SHARED_FOLDER}"} \
+  ${SYZKALLER_BINARIES} \
+  ${VM_SHARED_FOLDER:+ -hdc fat:"${VM_SHARED_FOLDER}"} \
   -display none \
   -smp 1 \
   -cpu qemu64,+smep,+smap \
