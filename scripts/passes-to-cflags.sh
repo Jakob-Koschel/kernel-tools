@@ -48,7 +48,16 @@ do
     # extremely ugly way to turn pass-name into PassName
     CAMEL_CASE_PASS=$(sed -E 's/-([a-z])/\U\1/g' <<< $PASS | sed -e "s/\b\(.\)/\u\1/g")
 
-    CFLAGS+=" -Xclang -load -Xclang ${REPO}/build/passes/${PASS}/LLVM${CAMEL_CASE_PASS}Pass.so"
+    PASS_PATH=${REPO}/build/passes/${PASS}/LLVM${CAMEL_CASE_PASS}Pass.so
+    if [ ! -f ${PASS_PATH} ]; then
+      PASS_PATH=${REPO}/build/${PASS}/LLVM${CAMEL_CASE_PASS}Pass.so
+      if [ ! -f ${PASS_PATH} ]; then
+        echo "[KERNEL TOOLS] couldn't find PASS :("
+        exit 1
+      fi
+    fi
+
+    CFLAGS+=" -Xclang -load -Xclang ${PASS_PATH}"
   fi
 done
 
