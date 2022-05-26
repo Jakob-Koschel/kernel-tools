@@ -43,9 +43,9 @@ tasks:
       - cd {{.REPO}}/build && cmake ..
       - cd {{.REPO}}/build && make -j${NPROC}
       # also call recursively for the other REPOS
-      - \[ -z `echo {{.NEXT_REPOS}}` \] || task REPOS={{.NEXT_REPOS}} build
+      - \[ -z `echo {{.NEXT_REPOS}}` \] || task REPOS="{{.NEXT_REPOS}}" build
     vars:
       REPO:
-        sh: \[ -z `echo {{.REPOS}}` \] || echo "{{.REPOS}}" | awk '{print $1}'
+        sh: \[ -z `echo "{{.REPOS}}"` \] || echo "{{.REPOS}}" | awk '{print $1}'
       NEXT_REPOS:
-        sh: \[ -z `echo {{.REPOS}}` \] || echo "{{.REPOS}}" | awk '{print $2}'
+        sh: \[ -z `echo "{{.REPOS}}"` \] || echo "{{.REPOS}}" | awk '{$1=""; print $0}'
