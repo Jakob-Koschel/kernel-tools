@@ -6,7 +6,7 @@
 		"image": "{{SYZKALLER_IMG}}/stretch.img",
 		"sshkey": "{{SYZKALLER_IMG}}/stretch.id_rsa",
 		"syzkaller": "{{SYZKALLER_PREFIX}}",
-		"reproduce": false,
+		"reproduce": true,
 		"procs": 1,
 		"type": "qemu",
 		"vm": {
