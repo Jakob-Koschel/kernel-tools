@@ -20,7 +20,7 @@ tasks:
       SYZKALLER_IMG: 'SYZKALLER_IMG: $SYZKALLER_IMG'
       TEMPLATE_DATA: "{{.KERNEL}}\n{{.SYZKALLER_PREFIX}}\n{{.SYZKALLER_WORKDIR}}\n{{.SYZKALLER_IMG}}"
     cmds:
-      - go get github.com/cbroglie/mustache/...
+      - go install github.com/cbroglie/mustache/cmd/mustache@latest
       - echo "{{.TEMPLATE_DATA}}" | $GOPATH/bin/mustache $ROOT/syzkaller.cfg.template > $SYZKALLER_CFG
       - mkdir -p $ROOT/out/go/src/github.com/google
       - ln -sfn $SYZKALLER_PREFIX $ROOT/out/go/src/github.com/google/syzkaller
