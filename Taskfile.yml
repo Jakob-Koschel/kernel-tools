@@ -26,6 +26,11 @@ includes:
   syzkaller:  ./taskfiles/TasksSyzkaller.yml
 
 tasks:
+  gdb:
+    desc: run gdb automatically attached to qemu
+    cmds:
+      - script -c ./scripts/gdb.sh -q -a /dev/null
+
   qemu:
     desc: run the kernel within qemu
     cmds:

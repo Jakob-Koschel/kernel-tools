@@ -47,7 +47,7 @@ kernel-tools qemu
 
 gdb can automatically be attached with:
 ```
-scripts/gdb.sh
+task gdb
 ```
 
 QEMU's escape character has been remapped to CTRL-Q, you can stop the running QEMU instance after the boot with:

@@ -7,15 +7,6 @@
 
 SCRIPTPATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
-# Import .env configurations
-if [ -f ${SCRIPTPATH}/../.env.default ]; then
-  set -o allexport; source ${SCRIPTPATH}/../.env.default; set +o allexport
-fi
-
-if [ -f ${SCRIPTPATH}/../.env ]; then
-  set -o allexport; source ${SCRIPTPATH}/../.env; set +o allexport
-fi
-
 GDB="${GDB:=gdb}"
 GDB_PORT="${GDB_PORT:=45457}"
 GDB_CMDS="${GDB_CMDS:=$SCRIPTPATH/gdb-cmds.txt}"
