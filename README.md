@@ -11,6 +11,9 @@ To run it you need to set the following environment variables in your shell or i
 For convenience you can add `kernel-tools/bin` to your PATH and run any command executable with `task ...` from within the kernel repo.
 This is useful to for example start the kernel you are in directly in qemu.
 
+## Dependencies
+Install [go-task](https://taskfile.dev/#/installation) as a task-runner.
+
 ## Compile LLVM
 To compile your `llvm-project` you can simply run:
 
