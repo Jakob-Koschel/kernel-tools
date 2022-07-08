@@ -13,6 +13,21 @@ This is useful to for example start the kernel you are in directly in qemu.
 
 ## Dependencies
 Install [go-task](https://taskfile.dev/#/installation) as a task-runner.
+```
+sudo sh -c "$(curl -ssL https://taskfile.dev/install.sh)" -- -d -b ~/.local/bin
+```
+
+Install the usual dependencies:
+```
+# llvm-project
+sudo apt install build-essential clang-12 lld-12 ninja-build ccache
+# linux
+sudo apt install bison flex libelf-dev libssl-dev
+# syzkaller
+sudo apt install golang debootstrap
+# qemu
+sudo apt install qemu-system-x86
+```
 
 ## Compile LLVM
 To compile your `llvm-project` you can simply run:
