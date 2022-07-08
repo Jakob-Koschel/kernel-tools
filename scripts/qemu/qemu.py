@@ -41,9 +41,9 @@ qemu.sendline('mount -t debugfs none /sys/kernel/debug')
 expect(qemu, PROMPT)
 # mount the shared folder if present
 if args.target == 'syzkaller':
-    qemu.sendline('mkdir /syzkaller')
+    qemu.sendline('mkdir /mnt-syzkaller')
     expect(qemu, PROMPT)
-    qemu.sendline('mount /dev/sdb1 /syzkaller')
+    qemu.sendline('mount /dev/sdb1 /mnt-syzkaller')
     expect(qemu, PROMPT)
 if os.environ.get('VM_SHARED_FOLDER', None) is not None:
     qemu.sendline('mount /dev/sdc1 /mnt')
@@ -51,10 +51,15 @@ if os.environ.get('VM_SHARED_FOLDER', None) is not None:
 sleep(1)
 
 if args.execprog and args.target == 'syzkaller':
+    # somehow there are bugs if the executables are run from the mount
+    qemu.sendline('mkdir /syzkaller')
+    expect(qemu, PROMPT)
+    qemu.sendline('cp /mnt-syzkaller/* /syzkaller')
+    expect(qemu, PROMPT)
     qemu.sendline('cd /syzkaller')
     expect(qemu, 'root@syzkaller:/syzkaller#')
     qemu.sendline(f'./syz-execprog -executor=./syz-executor -repeat=0 -procs=1 -cover=0 /mnt/{args.execprog}')
-    expect(qemu, PROMPT)
+    expect(qemu, PROMPT, timeout=None)
 
 if args.interactive:
     qemu.logfile = None
