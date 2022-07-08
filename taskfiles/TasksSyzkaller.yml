@@ -11,6 +11,12 @@ tasks:
       - rm -f {{.ROOT}}/out/syzkaller-bench
       - $SYZKALLER_BIN/syz-manager -config={{.SYZKALLER_CFG}} --bench {{.ROOT}}/out/syzkaller-bench
 
+  run-debug:
+    desc: run syzkaller fuzzer in debug modus (only one VM and output on stdout)
+    cmds:
+      - rm -f {{.ROOT}}/out/syzkaller-bench
+      - $SYZKALLER_BIN/syz-manager -config={{.SYZKALLER_CFG}} --bench {{.ROOT}}/out/syzkaller-bench -debug
+
   build:
     desc: build syzkaller
     vars:
