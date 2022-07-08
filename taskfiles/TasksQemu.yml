@@ -21,3 +21,13 @@ tasks:
     desc: run syzkaller image in qemu with attaching gdb
     cmds:
       - python3 scripts/qemu/qemu.py --interactive --gdb
+
+  execprog:
+    desc: run a certain testcase/log with execprog within the qemu
+    cmds:
+      - python3 scripts/qemu/qemu.py --interactive --execprog {{.CLI_ARGS}}
+
+  execprog-gdb:
+    desc: run a certain testcase/log with execprog within the qemu
+    cmds:
+      - python3 scripts/qemu/qemu.py --interactive --execprog {{.CLI_ARGS}} --gdb

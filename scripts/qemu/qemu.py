@@ -10,6 +10,7 @@ parser = argparse.ArgumentParser(description='pexpect run spectrestar with qemu'
 parser.add_argument('--target', dest='target', default="syzkaller", type=str)
 parser.add_argument('--gdb', dest='gdb', action='store_const', const=sum)
 parser.add_argument('--interactive', '-i', dest='interactive', action='store_const', const=sum)
+parser.add_argument('--execprog', dest='execprog', type=str)
 args = parser.parse_args()
 
 print('target: {}'.format(args.target))
@@ -48,6 +49,12 @@ if os.environ.get('VM_SHARED_FOLDER', None) is not None:
     qemu.sendline('mount /dev/sdc1 /mnt')
     expect(qemu, PROMPT)
 sleep(1)
+
+if args.execprog and args.target == 'syzkaller':
+    qemu.sendline('cd /syzkaller')
+    expect(qemu, 'root@syzkaller:/syzkaller#')
+    qemu.sendline(f'./syz-execprog -executor=./syz-executor -repeat=0 -procs=1 -cover=0 /mnt/{args.execprog}')
+    expect(qemu, PROMPT)
 
 if args.interactive:
     qemu.logfile = None
