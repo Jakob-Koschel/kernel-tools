@@ -2,6 +2,7 @@ import sys
 import os
 import pexpect
 import argparse
+import getpass
 from time import sleep
 
 from common import getch, exec_command, expect
@@ -29,13 +30,31 @@ qemu = pexpect.spawn('scripts/run-qemu.sh {}'.format(args.target),
         encoding='utf-8')
 qemu.logfile = sys.stdout
 
+sudo = '\[sudo\] password for jkl:'
+
 # login
 if args.target == 'syzkaller':
-    expect(qemu, 'syzkaller login:', timeout=None)
-    qemu.sendline('root')
+    index = expect(qemu, ['syzkaller login:', sudo], timeout=None)
+    if index == 2: # sudo
+        qemu.logfile = None
+        password = getpass.getpass(prompt='')
+        qemu.sendline(password)
+        qemu.logfile = sys.stdout
+        # wait again
+        expect(qemu, 'syzkaller login:', timeout=None)
+        qemu.sendline('root')
+    else:
+        qemu.sendline('root')
 
 # setup
-expect(qemu, PROMPT, timeout=None)
+index = expect(qemu, [PROMPT, sudo], timeout=None)
+if index == 2: # sudo
+    qemu.logfile = None
+    password = getpass.getpass(prompt='')
+    qemu.sendline(password)
+    qemu.logfile = sys.stdout
+    # wait again
+    expect(qemu, PROMPT, timeout=None)
 
 qemu.sendline('mount -t debugfs none /sys/kernel/debug')
 expect(qemu, PROMPT)
