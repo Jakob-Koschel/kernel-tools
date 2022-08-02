@@ -8,7 +8,7 @@ MEMORY="8192"
 TYPE=$1
 if [[ $TYPE = "syzkaller" ]]; then
   RAMDISK=
-  HDA="${SYZKALLER_IMG}/stretch.img"
+  HDA="file=${SYZKALLER_IMG}/${SYZKALLER_DISTRIBUTION}.img,format=raw"
   APPEND="${APPEND} root=/dev/sda"
   if [ -n "${SYZKALLER_SSH_PORT}" ]; then
     NET1="nic,model=e1000"
@@ -25,7 +25,7 @@ qemu-system-x86_64 \
   ${KERNEL} \
   ${APPEND:+ -append "${APPEND}"} \
   ${RAMDISK:+ -initrd "${RAMDISK}"} \
-  ${HDA:+ -hda "${HDA}"} \
+  ${HDA:+ -drive "${HDA}"} \
   ${ATTACH_GDB:+ -gdb tcp::${GDB_PORT}} \
   ${ATTACH_GDB:+ -S} \
   ${NET1:+ -net ${NET1}} \
