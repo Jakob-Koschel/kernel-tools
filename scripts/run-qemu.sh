@@ -22,6 +22,13 @@ else
   HDA=
 fi
 
+if [ -n "${ENABLE_SGX}" ]; then
+  QEMU_CPU="host,+sgx-provisionkey"
+  SGX_EPC="-object memory-backend-epc,id=mem1,size=64M,prealloc=on \
+           -M sgx-epc.0.memdev=mem1,sgx-epc.0.node=0"
+  QEMU_SYSTEM_x86_64="sudo $QEMU_SYSTEM_x86_64"
+fi
+
 set -x
 
 $QEMU_SYSTEM_x86_64 \
@@ -39,6 +46,7 @@ $QEMU_SYSTEM_x86_64 \
   -display none \
   -smp 1 \
   -cpu ${QEMU_CPU} \
+  ${SGX_EPC} \
   -m ${MEMORY} \
   -echr 17 \
   -serial mon:stdio \
