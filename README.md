@@ -96,7 +96,7 @@ task syzkaller:run
 task passes:run -- pass1:pass2
 ```
 
-The directories `REPOS` is pointing to needs to follow a certain patter right now:
+The directories `REPOS` are pointing to need to follow a certain pattern right now:
 The compiled .so of the pass with the name <pass-name1> will be expected in:
 ```
 ${REPO}/build/passes/pass-name1/LLVMPassName1Pass.so
