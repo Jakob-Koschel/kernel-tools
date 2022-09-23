@@ -27,7 +27,8 @@ if args.gdb:
 
 qemu = pexpect.spawn('scripts/run-qemu.sh {}'.format(args.target),
         env=env,
-        encoding='utf-8')
+        encoding='utf-8',
+        codec_errors='backslashreplace')
 qemu.logfile = sys.stdout
 
 sudo = '\[sudo\] password for jkl:'
