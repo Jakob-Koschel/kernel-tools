@@ -5,7 +5,18 @@ tasks:
     desc: configure llvm build
     cmds:
       - mkdir -p {{.LLVMPREFIX}}
-      - cd {{.LLVMPREFIX}} && cmake -G Ninja -DCMAKE_C_COMPILER="clang-12" -DCMAKE_CXX_COMPILER="clang++-12" -DLLVM_USE_LINKER="lld-12" -DLLVM_ENABLE_PROJECTS="clang;lld;compiler-rt" -DCMAKE_BUILD_TYPE="Release" -DLLVM_TARGETS_TO_BUILD=X86 -DLLVM_CCACHE_BUILD=ON -DBUILD_SHARED_LIBS=ON ../llvm
+      - |
+        cd {{.LLVMPREFIX}} && cmake \
+          -DCMAKE_C_COMPILER="clang-12" \
+          -DCMAKE_CXX_COMPILER="clang++-12" \
+          -DLLVM_USE_LINKER="lld-12" \
+          -DLLVM_ENABLE_PROJECTS="clang;lld;compiler-rt" \
+          -DCMAKE_BUILD_TYPE="Release" \
+          -DLLVM_TARGETS_TO_BUILD=X86 \
+          -DLLVM_CCACHE_BUILD=ON \
+          -DBUILD_SHARED_LIBS=ON \
+          {{.ADDITIONAL_LLVM_VARIABLES}} \
+          -G Ninja ../llvm
 
   build:
     desc: build llvm
