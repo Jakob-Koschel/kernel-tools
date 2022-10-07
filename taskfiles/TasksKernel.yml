@@ -53,7 +53,7 @@ tasks:
     cmds:
       - cd {{.KERNEL}} && rm -rf arch/x86/boot/bzImage arch/x86/boot/setup.bin arch/x86/boot/vmlinux.bin arch/x86/boot/zoffset.h arch/x86/boot/compressed/vmlinux arch/x86/boot/compressed/vmlinux.bin vmlinux vmlinux.o .thinlto-cache
 
-  config:
+  configure:
     desc: apply custom kernel config required
     cmds:
       - task: make
@@ -71,6 +71,11 @@ tasks:
       - \[ -z "$ENABLE_SYZKALLER" \] || task kernel:config-syzkaller
       - task: make
         vars: {CLI_ARGS: "modules_prepare"}
+
+  config:
+    desc: apply custom kernel config required
+    cmds:
+      - if \[ -n "$KERNEL_CONFIG" \]; then cp {{.KERNEL_CONFIG}} {{.KERNEL}}/.config; else task kernel:configure; fi
 
   config-gdb-build:
       # Kernel debugging (see https://stackoverflow.com/a/65526544)
