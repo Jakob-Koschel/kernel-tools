@@ -72,10 +72,17 @@ tasks:
       - task: make
         vars: {CLI_ARGS: "modules_prepare"}
 
+  configure-from-config-file:
+    desc: apply custom kernel config from a .config file set from KERNEL_CONFIG
+    cmds:
+      - cp {{.KERNEL_CONFIG}} {{.KERNEL}}/.config
+      - task: make
+        vars: {CLI_ARGS: "modules_prepare"}
+
   config:
     desc: apply custom kernel config required
     cmds:
-      - if \[ -n "$KERNEL_CONFIG" \]; then cp {{.KERNEL_CONFIG}} {{.KERNEL}}/.config; else task kernel:configure; fi
+      - if \[ -n "$KERNEL_CONFIG" \]; then task kernel:configure-from-config-file; else task kernel:configure; fi
 
   config-gdb-build:
       # Kernel debugging (see https://stackoverflow.com/a/65526544)
