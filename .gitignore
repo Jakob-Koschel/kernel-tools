@@ -1,6 +1,7 @@
 out
 .env
 syzkaller.cfg
+scripts/gdb-cmds.txt
 
 # python:
 # Byte-compiled / optimized / DLL files
