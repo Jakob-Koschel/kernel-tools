@@ -9,6 +9,7 @@ tasks:
     desc: run syzkaller fuzzer and record execution statistics
     cmds:
       - rm -f {{.ROOT}}/out/syzkaller-bench
+      # - $SYZKALLER_BIN/syz-manager -config={{.SYZKALLER_CFG}} --bench {{.ROOT}}/out/syzkaller-bench -debug -vv 0
       - $SYZKALLER_BIN/syz-manager -config={{.SYZKALLER_CFG}} --bench {{.ROOT}}/out/syzkaller-bench
 
   run-debug:
@@ -38,5 +39,10 @@ tasks:
       - mkdir -p {{.SYZKALLER_IMG}}
       - wget "https://raw.githubusercontent.com/google/syzkaller/master/tools/create-image.sh" -O {{.SYZKALLER_IMG}}/create-image.sh
       - chmod +x {{.SYZKALLER_IMG}}/create-image.sh
-      - cd {{.SYZKALLER_IMG}} && ./create-image.sh --distribution {{.SYZKALLER_DISTRIBUTION}}
+      - cd {{.SYZKALLER_IMG}} && ./create-image.sh --distribution {{.SYZKALLER_DISTRIBUTION}} --seek {{.SYZKALLER_IMAGE_SIZE}}
       - cd {{.SYZKALLER_IMG}} && cp stretch.img stretch.img.bak
+
+  ssh:
+    desc: ssh into syzkaller vm
+    cmds:
+      - ssh root@localhost -p {{.SYZKALLER_SSH_PORT}} -i {{.SYZKALLER_IMG}}/stretch.id_rsa
