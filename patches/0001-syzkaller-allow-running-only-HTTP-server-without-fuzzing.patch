@@ -1,12 +1,12 @@
-From b8ffd6a16d8f55bd4c0594221719142c3dd8a0fe Mon Sep 17 00:00:00 2001
+From ca8383cef9c0a213786ef28e77d97f5ff69d4e9b Mon Sep 17 00:00:00 2001
 From: Jakob Koschel <jakobkoschel@gmail.com>
 Date: Tue, 24 May 2022 13:43:20 +0200
-Subject: [PATCH syzkaller] allow running only HTTP server without fuzzing
+Subject: [PATCH 1/2] allow running only HTTP server without fuzzing
 
 ---
  pkg/mgrconfig/config.go |  3 +++
- syz-manager/html.go     | 12 ++++++++++--
- 2 files changed, 13 insertions(+), 2 deletions(-)
+ syz-manager/html.go     | 21 ++++++++++++++++-----
+ 2 files changed, 19 insertions(+), 5 deletions(-)
 
 diff --git a/pkg/mgrconfig/config.go b/pkg/mgrconfig/config.go
 index 5d4a9f8f5..6d9e2b885 100644
@@ -23,7 +23,7 @@ index 5d4a9f8f5..6d9e2b885 100644
  
  type Subsystem struct {
 diff --git a/syz-manager/html.go b/syz-manager/html.go
-index dc3e54519..1d740d333 100644
+index dc3e54519..f9549637a 100644
 --- a/syz-manager/html.go
 +++ b/syz-manager/html.go
 @@ -58,12 +58,20 @@ func (mgr *Manager) initHTTP() {
@@ -49,6 +49,22 @@ index dc3e54519..1d740d333 100644
  }
  
  func (mgr *Manager) httpSummary(w http.ResponseWriter, r *http.Request) {
+@@ -502,9 +510,12 @@ func (mgr *Manager) httpFilterPCs(w http.ResponseWriter, r *http.Request) {
+ 
+ func (mgr *Manager) collectCrashes(workdir string) ([]*UICrashType, error) {
+ 	// Note: mu is not locked here.
+-	reproReply := make(chan map[string]bool)
+-	mgr.reproRequest <- reproReply
+-	repros := <-reproReply
++	repros := make(map[string]bool)
++	if (!mgr.cfg.OnlyHTTPInterface) {
++		reproReply := make(chan map[string]bool)
++		mgr.reproRequest <- reproReply
++		repros = <-reproReply
++	}
+ 
+ 	crashdir := filepath.Join(workdir, "crashes")
+ 	dirs, err := osutil.ListDir(crashdir)
 -- 
-2.25.1
+2.34.1
 
