@@ -74,7 +74,7 @@ QEMU's escape character has been remapped to CTRL-Q, you can stop the running QE
 ## Run syzkaller
 To fuzz the kernel with syzkaller you need to compile it first and create the necessary image:
 ```
-task syzkaller:build syzkaller:create-image
+task syzkaller:build syzkaller:config syzkaller:create-image
 ```
 
 then running the kernel with that image to have a full userspace with SSH:
