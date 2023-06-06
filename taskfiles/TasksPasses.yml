@@ -8,7 +8,7 @@ tasks:
       - if [[ "{{.CLI_ARGS}}" == "compile:"* ]]; then task kernel:clean; fi
       - task kernel:clean-bzImage
       - task kernel:bzImage
-    vars:
+    env:
       ADDITIONAL_KBUILD_LDFLAGS:
         sh: REPOS="{{.REPOS}}" scripts/passes-to-ldflags.sh {{.CLI_ARGS}}
       ADDITIONAL_CLANG_FLAGS:
