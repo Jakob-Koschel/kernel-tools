@@ -61,4 +61,8 @@ do
   fi
 done
 
+if [[ "$PASS_MANAGER" == "oldpm" ]]; then
+  LD_FLAGS="-plugin-opt=legacy-pass-manager $LD_FLAGS"
+fi
+
 echo $LD_FLAGS
