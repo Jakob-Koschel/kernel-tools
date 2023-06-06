@@ -33,7 +33,7 @@ sudo apt install qemu-system-x86
 To compile your `llvm-project` you can simply run:
 
 ```
-task llvm:config llvm:build
+task llvm:create llvm:config llvm:build
 ```
 
 ## Compile your passes
