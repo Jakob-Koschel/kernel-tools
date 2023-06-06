@@ -43,9 +43,9 @@ tasks:
       - wget "https://raw.githubusercontent.com/google/syzkaller/master/tools/create-image.sh" -O {{.SYZKALLER_IMG}}/create-image.sh
       - chmod +x {{.SYZKALLER_IMG}}/create-image.sh
       - cd {{.SYZKALLER_IMG}} && ./create-image.sh --distribution {{.SYZKALLER_DISTRIBUTION}} --seek {{.SYZKALLER_IMAGE_SIZE}}
-      - cd {{.SYZKALLER_IMG}} && cp stretch.img stretch.img.bak
+      - cd {{.SYZKALLER_IMG}} && cp {{.SYZKALLER_DISTRIBUTION}}.img {{.SYZKALLER_DISTRIBUTION}}.img.bak
 
   ssh:
     desc: ssh into syzkaller vm
     cmds:
-      - ssh root@localhost -p {{.SYZKALLER_SSH_PORT}} -i {{.SYZKALLER_IMG}}/stretch.id_rsa
+      - ssh root@localhost -p {{.SYZKALLER_SSH_PORT}} -i {{.SYZKALLER_IMG}}/{{.SYZKALLER_DISTRIBUTION}}.id_rsa
