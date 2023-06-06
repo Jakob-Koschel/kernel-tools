@@ -57,7 +57,7 @@ do
       fi
     fi
 
-    CFLAGS+=" -Xclang -load -Xclang ${PASS_PATH}"
+    CFLAGS+=" -Xclang -load -Xclang ${PASS_PATH} -fpass-plugin=${PASS_PATH}"
   fi
 done
 
