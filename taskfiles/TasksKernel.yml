@@ -25,6 +25,7 @@ tasks:
           HOSTAR={{.LLVM_AR}} \
           HOSTLD={{.LD}} \
           KCFLAGS="{{.KCFLAGS}}" \
+          ADDITIONAL_CFLAGS_KASAN="{{.ADDITIONAL_CFLAGS_KASAN}}" \
           ADDITIONAL_KBUILD_LDFLAGS="{{.ADDITIONAL_KBUILD_LDFLAGS}}" \
           ADDITIONAL_KBUILD_VMLINUX_OBJS="{{.ADDITIONAL_KBUILD_VMLINUX_OBJS}}" \
           -f {{.ROOT}}/Makefile.kernel \
