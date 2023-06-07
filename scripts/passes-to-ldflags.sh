@@ -45,6 +45,8 @@ do
       exit 1
     fi
 
+    # TODO: add similar PASS_ARGUMENTS as in 'passes-to-cflags.sh'
+
     # extremely ugly way to turn pass-name into PassName
     CAMEL_CASE_PASS=$(sed -E 's/-([a-z])/\U\1/g' <<< $PASS | sed -e "s/\b\(.\)/\u\1/g")
 

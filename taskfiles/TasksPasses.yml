@@ -5,7 +5,7 @@ tasks:
     desc: "run a certain llvm pass on the kernel. Use 'compile:passname' to run it at compile time, 'lto:passname' to run it at LTO time"
     cmds:
       - task build
-      - if [[ "{{.CLI_ARGS}}" == "compile:"* ]]; then task kernel:clean; fi
+      - if [[ "{{.CLI_ARGS}}" == *"compile:"* ]]; then task kernel:clean; fi
       - task kernel:clean-bzImage
       - task kernel:bzImage
     env:

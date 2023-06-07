@@ -45,6 +45,19 @@ do
       exit 1
     fi
 
+
+    TMP_PASS_NAME="${PASS%%(*}"
+    ARGUMENTS="${PASS#$TMP_PASS_NAME}"
+    PASS=$TMP_PASS_NAME
+
+    # remove leading '(' and trailing ')'
+    ARGUMENTS="${ARGUMENTS#\(}"
+    ARGUMENTS="${ARGUMENTS%\)}"
+    PASS_ARGUMENTS=""
+    for arg in $ARGUMENTS; do
+      PASS_ARGUMENTS+=" -mllvm $arg"
+    done
+
     # extremely ugly way to turn pass-name into PassName
     CAMEL_CASE_PASS=$(sed -E 's/-([a-z])/\U\1/g' <<< $PASS | sed -e "s/\b\(.\)/\u\1/g")
 
@@ -57,7 +70,7 @@ do
       fi
     fi
 
-    CFLAGS+=" -Xclang -load -Xclang ${PASS_PATH} -fpass-plugin=${PASS_PATH}"
+    CFLAGS+=" -Xclang -load -Xclang ${PASS_PATH} -fpass-plugin=${PASS_PATH} ${PASS_ARGUMENTS}"
   fi
 done
 
