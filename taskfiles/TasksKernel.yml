@@ -104,11 +104,18 @@ tasks:
       - cd {{.KERNEL}} && scripts/config --enable CONFIG_KASAN_OUTLINE
       - cd {{.KERNEL}} && scripts/config --disable CONFIG_KASAN_INLINE
       - cd {{.KERNEL}} && scripts/config --disable CONFIG_TEST_KASAN
-      # if compiling with clang, kernel disables KASAN stack instrumentation by default because of stack size issues
-      - cd {{.KERNEL}} && scripts/config --enable CONFIG_KASAN_STACK
-      - cd {{.KERNEL}} && scripts/config --set-val CONFIG_STACK_HASH_ORDER 20
       - cd {{.KERNEL}} && scripts/config --enable CONFIG_KASAN_VMALLOC
       - cd {{.KERNEL}} && scripts/config --disable CONFIG_KASAN_MODULE_TEST
+      - \[ -z "$ENABLE_KASAN_STACK" \] ||     task kernel:config-kasan-stack
+      - \[ -n "$ENABLE_KASAN_STACK" \] || (cd {{.KERNEL}} && scripts/config --disable CONFIG_KASAN_STACK_ENABLE)
+      - \[ -n "$ENABLE_KASAN_STACK" \] || (cd {{.KERNEL}} && scripts/config --disable CONFIG_KASAN_STACK)
+
+  config-kasan-stack:
+    cmds:
+      # if compiling with clang, kernel disables KASAN stack instrumentation by default because of stack size issues
+      - cd {{.KERNEL}} && scripts/config --enable CONFIG_KASAN_STACK
+      - cd {{.KERNEL}} && scripts/config --enable CONFIG_KASAN_STACK_ENABLE
+      - cd {{.KERNEL}} && scripts/config --set-val CONFIG_STACK_HASH_ORDER 20
 
   config-debug:
     cmds:
