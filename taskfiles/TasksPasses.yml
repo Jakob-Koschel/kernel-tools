@@ -5,7 +5,7 @@ tasks:
     desc: "run a certain llvm pass on the kernel. Use 'compile:passname' to run it at compile time, 'lto:passname' to run it at LTO time"
     cmds:
       - task build
-      - if [[ "{{.CLI_ARGS}}" == *"compile:"* ]]; then task kernel:clean; fi
+      - if [[ "{{.CLI_ARGS}}" == *"compile:"* && -z "{{.NO_CLEAN}}" ]]; then task kernel:clean; fi
       - task kernel:clean-bzImage
       - task kernel:bzImage
     env:
@@ -17,3 +17,9 @@ tasks:
         # Append "/build/runtime/lib*.a" to all REPOS
         # (https://stackoverflow.com/a/60011551/3888965)
         sh: sed -E "s/(\S)(\s|$)/\1\/build\/runtime\/lib\*.a /g" <<< "{{.REPOS}}"
+
+  run-no-clean:
+    desc: "avoid doing a recompile if running compile time passes (to only relink the runtime library"
+    cmds:
+      - task: run
+        vars: {NO_CLEAN: '1'}
