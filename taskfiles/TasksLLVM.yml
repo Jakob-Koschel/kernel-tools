@@ -11,9 +11,9 @@ tasks:
       - mkdir -p {{.LLVMPREFIX}}
       - |
         cd {{.LLVMPREFIX}} && cmake \
-          -DCMAKE_C_COMPILER="clang-12" \
-          -DCMAKE_CXX_COMPILER="clang++-12" \
-          -DLLVM_USE_LINKER="lld-12" \
+          -DCMAKE_C_COMPILER="{{.LLVM_C_COMPILER}}" \
+          -DCMAKE_CXX_COMPILER="{{.LLVM_CXX_COMPILER}}" \
+          -DLLVM_USE_LINKER="{{.LLVM_LLD}}" \
           -DLLVM_ENABLE_PROJECTS="clang;lld;compiler-rt" \
           -DCMAKE_BUILD_TYPE="Release" \
           -DLLVM_TARGETS_TO_BUILD=X86 \
