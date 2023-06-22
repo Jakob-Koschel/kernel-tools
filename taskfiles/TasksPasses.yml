@@ -16,4 +16,7 @@ tasks:
       ADDITIONAL_KBUILD_VMLINUX_OBJS:
         # Append "/build/runtime/lib*.a" to all REPOS
         # (https://stackoverflow.com/a/60011551/3888965)
-        sh: sed -E "s/(\S)(\s|$)/\1\/build\/runtime\/lib\*.a /g" <<< "{{.REPOS}}"
+        # if we find some libraries there we include them, otherwise the variable stays empty;
+        sh:
+          RUNTIME_LIBS=$(sed -E "s/(\S)(\s|$)/\1\/build\/runtime\/lib\*.a /g" <<< "{{.REPOS}}");
+          find $RUNTIME_LIBS -maxdepth 1 -type f -print -quit | grep -q . && echo "$RUNTIME_LIBS" || echo ""
