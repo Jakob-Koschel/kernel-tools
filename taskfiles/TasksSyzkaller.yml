@@ -50,4 +50,9 @@ tasks:
   ssh:
     desc: ssh into syzkaller vm
     cmds:
-      - ssh root@localhost -p {{.SYZKALLER_SSH_PORT}} -i {{.SYZKALLER_IMG}}/{{.SYZKALLER_DISTRIBUTION}}.id_rsa
+      - ssh root@localhost -p {{.SYZKALLER_SSH_PORT}} -i {{.SYZKALLER_IMG}}/{{.SYZKALLER_DISTRIBUTION}}.id_rsa {{.CLI_ARGS}}
+
+  scp:
+    desc: scp in/out syzkaller vm
+    cmds:
+      - scp -r -o ConnectTimeout=30 -o StrictHostKeyChecking=no -P {{.SYZKALLER_SSH_PORT}} -i {{.SYZKALLER_IMG}}/{{.SYZKALLER_DISTRIBUTION}}.id_rsa {{.CLI_ARGS}}
