@@ -25,6 +25,13 @@ tasks:
       - ln -sfn $SYZKALLER_PREFIX $ROOT/out/go/src/github.com/google/syzkaller
       - cd $SYZKALLER_PREFIX && make
 
+  test:
+    desc: test syzkaller
+    cmds:
+      - mkdir -p $ROOT/out/go/src/github.com/google
+      - ln -sfn $SYZKALLER_PREFIX $ROOT/out/go/src/github.com/google/syzkaller
+      - cd $SYZKALLER_PREFIX && make test
+
   config:
     desc: config syzkaller
     vars:
