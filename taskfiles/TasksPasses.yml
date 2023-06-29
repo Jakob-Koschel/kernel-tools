@@ -20,6 +20,7 @@ tasks:
         sh:
           RUNTIME_LIBS=$(sed -E "s/(\S)(\s|$)/\1\/build\/runtime\/lib\*.a /g" <<< "{{.REPOS}}");
           find $RUNTIME_LIBS -maxdepth 1 -type f -print -quit | grep -q . && echo "$RUNTIME_LIBS" || echo ""
+      ADDITIONAL_CFLAGS_KASAN_PASSES: "{{.ADDITIONAL_CFLAGS_KASAN}}"
 
   run-no-clean:
     desc: "avoid doing a recompile if running compile time passes (to only relink the runtime library"
