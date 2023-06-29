@@ -25,6 +25,29 @@ tasks:
       - ln -sfn $SYZKALLER_PREFIX $ROOT/out/go/src/github.com/google/syzkaller
       - cd $SYZKALLER_PREFIX && make
 
+  kernel-config:
+    desc: build syzkaller used kernel configs
+    vars:
+      COMMIT: 'COMMIT: $KERNEL_COMMIT'
+      TEMPLATE_DATA: "{{.COMMIT}}"
+      KERNEL_TOOL_INSTANCE: '- kernel-tools: [default, x86_64, timeouts_native, clang, bpfjit, lsm, apparmor, kasan]'
+      KERNEL_TOOL_INCLUDE: '- kernel-tools-kernel.yml: [default]'
+      CONFIG_DIR: "$SYZKALLER_PREFIX/dashboard/config/linux"
+    cmds:
+      - go install github.com/cbroglie/mustache/cmd/mustache@latest
+      - mkdir -p $ROOT/out/go/src/github.com/google
+      - ln -sfn $SYZKALLER_PREFIX $ROOT/out/go/src/github.com/google/syzkaller
+      - cd $SYZKALLER_PREFIX && make kconf
+      - rm -f {{.CONFIG_DIR}}/kernel-tools.yml || true
+      - cp {{.CONFIG_DIR}}/main.yml {{.CONFIG_DIR}}/kernel-tools.yml
+      - sed -i '/instances:/a \ {{.KERNEL_TOOL_INSTANCE}}' {{.CONFIG_DIR}}/kernel-tools.yml
+      - sed -i '/includes:/a \ {{.KERNEL_TOOL_INCLUDE}}' {{.CONFIG_DIR}}/kernel-tools.yml
+      - echo "{{.TEMPLATE_DATA}}" | $GOPATH/bin/mustache kconf/kernel-tools-kernel.yml.template > {{.CONFIG_DIR}}/bits/kernel-tools-kernel.yml
+      - $SYZKALLER_BIN/syz-kconf -config {{.CONFIG_DIR}}/kernel-tools.yml -sourcedir {{.KERNEL}} --instance kernel-tools
+      - rm {{.CONFIG_DIR}}/kernel-tools.yml
+      - rm {{.CONFIG_DIR}}/bits/kernel-tools-kernel.yml
+      - mv {{.CONFIG_DIR}}/kernel-tools.config {{.KERNEL}}/.config
+
   test:
     desc: test syzkaller
     cmds:
