@@ -78,7 +78,7 @@ if args.execprog and args.target == 'syzkaller':
     expect(qemu, PROMPT)
     qemu.sendline('cd /syzkaller')
     expect(qemu, 'root@syzkaller:/syzkaller#')
-    qemu.sendline(f'./syz-execprog -executor=./syz-executor -repeat=0 -procs=1 -cover=0 /mnt/{args.execprog}')
+    qemu.sendline(f'./syz-execprog -executor=./syz-executor -repeat=0 -procs=1 -cover=1 /mnt/{args.execprog}')
     expect(qemu, PROMPT, timeout=None)
 
 if args.interactive:
