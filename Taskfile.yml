@@ -44,6 +44,7 @@ tasks:
   build:
     desc: build static libraries and passes
     cmds:
+      - task kernel:make -- arch/x86/kernel/asm-offsets.s
       - mkdir -p {{.REPO}}/build
       - cd {{.REPO}}/build && cmake ..
       - cd {{.REPO}}/build && make -j${NPROC}
