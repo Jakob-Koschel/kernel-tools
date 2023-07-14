@@ -5,6 +5,11 @@ env:
   GOBIN: '{{.ROOT}}/out/go/bin'
 
 tasks:
+  create:
+    desc: clone syzkaller
+    cmds:
+      - git clone https://github.com/google/syzkaller.git
+
   run:
     desc: run syzkaller fuzzer and record execution statistics
     cmds:

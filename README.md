@@ -4,7 +4,7 @@ This repository *should* make it easy to run LLVM LTO passes on the Linux kernel
 
 To run it you need to set the following environment variables in your shell or in a `.env` file:
 
-* `LLVMPREFIX`: by default points to the `llvm-project` submodule, you can overwrite it with your own or for example `usr/lib/llvm-12`
+* `LLVMPREFIX`: by default points to the `llvm-project` directory (created with `task llvm:clone`), you can overwrite it with your own or for example `usr/lib/llvm-12`.
 * `KERNEL`: should point to the Linux kernel repo.
 * `REPOS` should point to the directories holding the LLVM LTO passes and runtimes (space separated).
 
@@ -74,8 +74,10 @@ QEMU's escape character has been remapped to CTRL-Q, you can stop the running QE
 ## Run syzkaller
 To fuzz the kernel with syzkaller you need to compile it first and create the necessary image:
 ```
-task syzkaller:build syzkaller:config syzkaller:create-image
+task syzkaller:create syzkaller:build syzkaller:config syzkaller:create-image
 ```
+
+If you want to use your own syzkaller repository (located somewhere else) you need to overwrite both `SYZKALLER_PREFIX` and `SYZKALLER_BIN`.
 
 then running the kernel with that image to have a full userspace with SSH:
 ```
