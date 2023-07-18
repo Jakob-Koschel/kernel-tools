@@ -55,3 +55,7 @@ tasks:
         sh: \[ -z `echo "{{.REPOS}}"` \] || echo "{{.REPOS}}" | awk '{print $1}'
       NEXT_REPOS:
         sh: \[ -z `echo "{{.REPOS}}"` \] || echo "{{.REPOS}}" | awk '{$1=""; print $0}'
+    env:
+      ADDITIONAL_KBUILD_LDFLAGS: ''
+      ADDITIONAL_CLANG_FLAGS: ''
+      ADDITIONAL_KBUILD_VMLINUX_OBJS: ''
