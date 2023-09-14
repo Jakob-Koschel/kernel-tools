@@ -70,7 +70,7 @@ if os.environ.get('VM_SHARED_FOLDER', None) is not None:
     expect(qemu, PROMPT)
 sleep(1)
 
-qemu.sendline('alias execprog="/mnt-syzkaller/syz-execprog -executor=/mnt-syzkaller/syz-executor -repeat=0 -procs=1 -cover=1 "')
+qemu.sendline('alias execprog="/mnt-syzkaller/syz-execprog -executor=/mnt-syzkaller/syz-executor -repeat=0 -procs=1 -cover=1 -debug "')
 
 if args.execprog and args.target == 'syzkaller':
     # somehow there are bugs if the executables are run from the mount
