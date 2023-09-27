@@ -16,9 +16,14 @@ Install [go-task](https://taskfile.dev/#/installation) as a task-runner.
 ```
 sudo sh -c "$(curl -ssL https://taskfile.dev/install.sh)" -- -d -b ~/.local/bin
 ```
+or on Ubuntu:
+```
+sudo snap install task --classic
+```
 
 Install the usual dependencies:
 ```
+sudo apt install cmake
 # llvm-project
 sudo apt install build-essential clang-12 lld-12 ninja-build ccache
 # linux
@@ -28,6 +33,8 @@ sudo apt install golang debootstrap
 # qemu
 sudo apt install qemu-system-x86
 ```
+
+**NOTE**: The project now requires ar (binutils 2.38) which is one (not the only) reason why you shouldn't use this on an Ubuntu version before 22.04.
 
 ## Compile LLVM
 To compile your `llvm-project` you can simply run:
