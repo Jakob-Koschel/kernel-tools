@@ -21,6 +21,8 @@ or on Ubuntu:
 sudo snap install task --classic
 ```
 
+Install a recent [golang](https://go.dev/doc/install) (the apt one is usually too old).
+
 Install the usual dependencies:
 ```
 sudo apt install cmake
@@ -29,7 +31,7 @@ sudo apt install build-essential clang-12 lld-12 ninja-build ccache
 # linux
 sudo apt install bison flex libelf-dev libssl-dev
 # syzkaller
-sudo apt install golang debootstrap
+sudo apt install debootstrap
 # qemu
 sudo apt install qemu-system-x86
 ```
