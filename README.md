@@ -25,7 +25,7 @@ Install a recent [golang](https://go.dev/doc/install) (the apt one is usually to
 
 Install the usual dependencies:
 ```
-sudo apt install cmake
+sudo apt install cmake gdb
 # llvm-project
 sudo apt install build-essential clang-12 lld-12 ninja-build ccache
 # linux
