@@ -120,3 +120,7 @@ task passes:run -- .
 ```
 
 You can get inspired by [kernel-tools-template-repo](https://github.com/Jakob-Koschel/kernel-tools-template-repo) on how such a repository can be setup.
+
+## Share files with the VM
+
+You can set `VM_SHARED_FOLDER` to share a directory with the VM.
