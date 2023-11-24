@@ -3,6 +3,9 @@ out
 syzkaller.cfg
 scripts/gdb-cmds.txt
 
+autostart/autostart.c
+autostart/autostart.sh
+
 # python:
 # Byte-compiled / optimized / DLL files
 __pycache__/

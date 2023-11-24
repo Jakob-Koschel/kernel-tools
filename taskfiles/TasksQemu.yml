@@ -1,33 +1,54 @@
 version: '3'
 
+env:
+  IMAGE_PATH: "{{.SYZKALLER_IMG}}/{{.SYZKALLER_DISTRIBUTION}}.img"
+  AUTOSTART_CONFIG_PATH: "./out/autostart.conf.json"
+
 tasks:
   qemu:
     vars:
-      CLI_ARGS: '{{default "--target qemu --interactive" .CLI_ARGS}}'
+      CLI_ARGS: '{{default "qemu" .CLI_ARGS}}'
     cmds:
-      - python3 scripts/qemu/qemu.py {{.CLI_ARGS}}
+      - ./autostart/setup-autostart.py --config {{.AUTOSTART_CONFIG_PATH}} --target {{.CLI_ARGS}} --execprog "{{.EXECPROG}}"
+      - ./scripts/run-qemu.sh {{.CLI_ARGS}}
+    env:
+      ATTACH_GDB: "{{.ATTACH_GDB}}"
 
   qemu-gdb:
     desc: run qemu with attaching gdb
     cmds:
-      - python3 scripts/qemu/qemu.py --target qemu --interactive --gdb
+      - task: qemu
+        vars:
+          ATTACH_GDB: 1
 
   syzkaller:
     desc: run syzkaller image in qemu
     cmds:
-      - python3 scripts/qemu/qemu.py --interactive
+      - task: qemu
+        vars:
+          CLI_ARGS: "syzkaller"
 
   syzkaller-gdb:
     desc: run syzkaller image in qemu with attaching gdb
     cmds:
-      - python3 scripts/qemu/qemu.py --interactive --gdb
+      - task: qemu
+        vars:
+          CLI_ARGS: "syzkaller"
+          ATTACH_GDB: 1
 
   execprog:
     desc: run a certain testcase/log with execprog within the qemu
     cmds:
-      - python3 scripts/qemu/qemu.py --interactive --execprog {{.CLI_ARGS}}
+      - task: qemu
+        vars:
+          CLI_ARGS: "syzkaller"
+          EXECPROG: "{{.CLI_ARGS}}"
 
   execprog-gdb:
     desc: run a certain testcase/log with execprog within the qemu
     cmds:
-      - python3 scripts/qemu/qemu.py --interactive --execprog {{.CLI_ARGS}} --gdb
+      - task: qemu
+        vars:
+          CLI_ARGS: "syzkaller"
+          EXECPROG: "{{.CLI_ARGS}}"
+          ATTACH_GDB: 1

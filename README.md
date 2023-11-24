@@ -31,7 +31,7 @@ sudo apt install build-essential clang-12 lld-12 ninja-build ccache
 # linux
 sudo apt install bison flex libelf-dev libssl-dev
 # syzkaller
-sudo apt install debootstrap
+sudo apt install debootstrap libguestfs-tools
 # qemu
 sudo apt install qemu-system-x86
 ```

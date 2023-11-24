@@ -1,0 +1,1 @@
+alias execprog="/mnt-syzkaller/syz-execprog -executor=/mnt-syzkaller/syz-executor -repeat=0 -procs=1 -cover=1 -debug "
