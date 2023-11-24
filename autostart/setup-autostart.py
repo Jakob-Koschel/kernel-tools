@@ -8,7 +8,7 @@ import subprocess
 script_path = os.path.dirname(os.path.realpath(__file__))
 
 def main():
-    parser = argparse.ArgumentParser(description='pexpect run spectrestar with qemu')
+    parser = argparse.ArgumentParser(description='check if autostart config changed and image needs to be modified again')
     parser.add_argument('--target', dest='target', default="syzkaller", type=str)
     parser.add_argument('--execprog', dest='execprog', type=str)
     parser.add_argument('--config', dest='config_file', required=True, type=str)
