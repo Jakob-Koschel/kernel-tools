@@ -1,0 +1,3 @@
+[submodule "qemu-tools"]
+	path = qemu-tools
+	url = https://github.com/Jakob-Koschel/qemu-tools
