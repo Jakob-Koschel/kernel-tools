@@ -12,7 +12,6 @@ tasks:
       ADDITIONAL_KBUILD_LDFLAGS:
         sh: PASS_MANAGER="{{.PASS_MANAGER}}" REPOS="{{.REPOS}}" scripts/passes-to-flags.py --passes "{{.CLI_ARGS}}" --lto-flags
       ADDITIONAL_CLANG_FLAGS:
-        sh: PASS_MANAGER="{{.PASS_MANAGER}}" REPOS="{{.REPOS}}" scripts/passes-to-cflags.sh {{.CLI_ARGS}}
         sh: PASS_MANAGER="{{.PASS_MANAGER}}" REPOS="{{.REPOS}}" scripts/passes-to-flags.py --passes "{{.CLI_ARGS}}" --compile-flags
       ADDITIONAL_KBUILD_VMLINUX_OBJS:
         # Append "/build/runtime/lib*.a" to all REPOS
