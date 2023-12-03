@@ -5,6 +5,7 @@ tasks:
     desc: clone llvm-project
     cmds:
       - git clone https://github.com/llvm/llvm-project.git
+
   config:
     desc: configure llvm build
     cmds:

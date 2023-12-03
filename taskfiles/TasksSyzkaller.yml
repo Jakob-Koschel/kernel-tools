@@ -15,13 +15,19 @@ tasks:
     cmds:
       - rm -f {{.ROOT}}/out/syzkaller-bench
       # - $SYZKALLER_BIN/syz-manager -config={{.SYZKALLER_CFG}} --bench {{.ROOT}}/out/syzkaller-bench -debug -vv 0
-      - $SYZKALLER_BIN/syz-manager -config={{.SYZKALLER_CFG}} --bench {{.ROOT}}/out/syzkaller-bench
+      - |
+        $SYZKALLER_BIN/syz-manager \
+          -config={{.SYZKALLER_CFG}} \
+          --bench {{.ROOT}}/out/syzkaller-bench
 
   run-debug:
     desc: run syzkaller fuzzer in debug modus (only one VM and output on stdout)
     cmds:
       - rm -f {{.ROOT}}/out/syzkaller-bench
-      - $SYZKALLER_BIN/syz-manager -config={{.SYZKALLER_CFG}} --bench {{.ROOT}}/out/syzkaller-bench -debug
+      - |
+        $SYZKALLER_BIN/syz-manager \
+          -config={{.SYZKALLER_CFG}} \
+          --bench {{.ROOT}}/out/syzkaller-bench -debug
 
   build:
     desc: build syzkaller
@@ -47,8 +53,15 @@ tasks:
       - cp {{.CONFIG_DIR}}/main.yml {{.CONFIG_DIR}}/kernel-tools.yml
       - sed -i '/instances:/a \ {{.KERNEL_TOOL_INSTANCE}}' {{.CONFIG_DIR}}/kernel-tools.yml
       - sed -i '/includes:/a \ {{.KERNEL_TOOL_INCLUDE}}' {{.CONFIG_DIR}}/kernel-tools.yml
-      - echo "{{.TEMPLATE_DATA}}" | $GOPATH/bin/mustache kconf/kernel-tools-kernel.yml.template > {{.CONFIG_DIR}}/bits/kernel-tools-kernel.yml
-      - $SYZKALLER_BIN/syz-kconf -config {{.CONFIG_DIR}}/kernel-tools.yml -sourcedir {{.KERNEL}} --instance kernel-tools
+      - |
+        echo "{{.TEMPLATE_DATA}}" | \
+          $GOPATH/bin/mustache kconf/kernel-tools-kernel.yml.template > \
+          {{.CONFIG_DIR}}/bits/kernel-tools-kernel.yml
+      - |
+        $SYZKALLER_BIN/syz-kconf \
+          -config {{.CONFIG_DIR}}/kernel-tools.yml \
+          -sourcedir {{.KERNEL}} \
+          --instance kernel-tools
       - rm {{.CONFIG_DIR}}/kernel-tools.yml
       - rm {{.CONFIG_DIR}}/bits/kernel-tools-kernel.yml
       - mv {{.CONFIG_DIR}}/kernel-tools.config {{.KERNEL}}/.config
@@ -72,7 +85,9 @@ tasks:
       TEMPLATE_DATA: "{{.KERNEL}}\n{{.SYZKALLER_PREFIX}}\n{{.SYZKALLER_WORKDIR}}\n{{.SYZKALLER_IMG}}\n{{.SYZKALLER_DISTRIBUTION}}\n{{.SYZKALLER_VM_MEMORY}}"
     cmds:
       - go install github.com/cbroglie/mustache/cmd/mustache@latest
-      - echo "{{.TEMPLATE_DATA}}" | $GOPATH/bin/mustache $ROOT/syzkaller.cfg.template > $SYZKALLER_CFG
+      - |
+        echo "{{.TEMPLATE_DATA}}" | \
+          $GOPATH/bin/mustache $ROOT/syzkaller.cfg.template > $SYZKALLER_CFG
 
   create-image:
     desc: create syzkaller image
@@ -80,15 +95,29 @@ tasks:
       - mkdir -p {{.SYZKALLER_IMG}}
       - wget "https://raw.githubusercontent.com/google/syzkaller/master/tools/create-image.sh" -O {{.SYZKALLER_IMG}}/create-image.sh
       - chmod +x {{.SYZKALLER_IMG}}/create-image.sh
-      - cd {{.SYZKALLER_IMG}} && ./create-image.sh --distribution {{.SYZKALLER_DISTRIBUTION}} --seek {{.SYZKALLER_IMAGE_SIZE}}
-      - cd {{.SYZKALLER_IMG}} && cp {{.SYZKALLER_DISTRIBUTION}}.img {{.SYZKALLER_DISTRIBUTION}}.img.bak
+      - |
+        cd {{.SYZKALLER_IMG}} && \
+          ./create-image.sh \
+          --distribution {{.SYZKALLER_DISTRIBUTION}} \
+          --seek {{.SYZKALLER_IMAGE_SIZE}}
+      - |
+        cd {{.SYZKALLER_IMG}} && \
+          cp {{.SYZKALLER_DISTRIBUTION}}.img {{.SYZKALLER_DISTRIBUTION}}.img.bak
 
   ssh:
     desc: ssh into syzkaller vm
     cmds:
-      - ssh root@localhost -p {{.SYZKALLER_SSH_PORT}} -i {{.SYZKALLER_IMG}}/{{.SYZKALLER_DISTRIBUTION}}.id_rsa {{.CLI_ARGS}}
+      - |
+        ssh root@localhost \
+          -p {{.SYZKALLER_SSH_PORT}} \
+          -i {{.SYZKALLER_IMG}}/{{.SYZKALLER_DISTRIBUTION}}.id_rsa \
+          {{.CLI_ARGS}}
 
   scp:
     desc: scp in/out syzkaller vm
     cmds:
-      - scp -r -o ConnectTimeout=30 -o StrictHostKeyChecking=no -P {{.SYZKALLER_SSH_PORT}} -i {{.SYZKALLER_IMG}}/{{.SYZKALLER_DISTRIBUTION}}.id_rsa {{.CLI_ARGS}}
+      - |
+        scp -r -o ConnectTimeout=30 -o StrictHostKeyChecking=no \
+          -P {{.SYZKALLER_SSH_PORT}} \
+          -i {{.SYZKALLER_IMG}}/{{.SYZKALLER_DISTRIBUTION}}.id_rsa \
+          {{.CLI_ARGS}}
