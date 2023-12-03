@@ -1,19 +1,19 @@
 {
 	"target": "linux/amd64",
 		"http": "127.0.0.1:56741",
-		"workdir": "{{SYZKALLER_WORKDIR}}",
-		"kernel_obj": "{{KERNEL}}",
-		"image": "{{SYZKALLER_IMG}}/{{SYZKALLER_DISTRIBUTION}}.img",
-		"sshkey": "{{SYZKALLER_IMG}}/{{SYZKALLER_DISTRIBUTION}}.id_rsa",
-		"syzkaller": "{{SYZKALLER_PREFIX}}",
+		"workdir": "${SYZKALLER_WORKDIR}",
+		"kernel_obj": "${KERNEL}",
+		"image": "${SYZKALLER_IMG}/${SYZKALLER_DISTRIBUTION}.img",
+		"sshkey": "${SYZKALLER_IMG}/${SYZKALLER_DISTRIBUTION}.id_rsa",
+		"syzkaller": "${SYZKALLER_PREFIX}",
 		"reproduce": true,
 		"procs": 1,
 		"type": "qemu",
 		"vm": {
 			"count": 8,
-			"kernel": "{{KERNEL}}/arch/x86/boot/bzImage",
+			"kernel": "${KERNEL}/arch/x86/boot/bzImage",
 			"cpu": 1,
-			"mem": {{SYZKALLER_VM_MEMORY}},
+			"mem": ${SYZKALLER_VM_MEMORY},
 			"cmdline" : "rootfstype=ext4 rcu_nocbs=0 nosmp nokaslr modules=sd-mod,usb-storage,ext4 ignore_loglevel maxcpus=1 nmi_watchdog=0 net.ifnames=0"
 		}
 }
