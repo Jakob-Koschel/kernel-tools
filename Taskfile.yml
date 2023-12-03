@@ -2,21 +2,6 @@ version: '3'
 
 dotenv: ['.env', '.env.default']
 
-vars:
-  CLANG: '{{.LLVMPREFIX}}/bin/clang'
-  CC: '{{.LLVMPREFIX}}/bin/clang'
-  CXX: '{{.LLVMPREFIX}}/bin/clang++'
-  OPT: '{{.LLVMPREFIX}}/bin/opt'
-  LD: '{{.LLVMPREFIX}}/bin/ld.lld'
-  LLVM_NM: '{{.LLVMPREFIX}}/bin/llvm-nm'
-  LLVM_AR: '{{.LLVMPREFIX}}/bin/llvm-ar'
-  LLVM_STRIP: '{{.LLVMPREFIX}}/bin/llvm-strip'
-  LLVM_OBJCOPY: '{{.LLVMPREFIX}}/bin/llvm-objcopy'
-  LLVM_OBJDUMP: '{{.LLVMPREFIX}}/bin/llvm-objdump'
-  LLVM_READELF: '{{.LLVMPREFIX}}/bin/llvm-readelf'
-  LLVM_LINK: '{{.LLVMPREFIX}}/bin/llvm-link'
-  LLVM_CONFIG: '{{.LLVMPREFIX}}/bin/llvm-config'
-
 includes:
   initramfs:  ./taskfiles/TasksInitramfs.yml
   kernel:     ./taskfiles/TasksKernel.yml
