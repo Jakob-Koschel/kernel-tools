@@ -25,7 +25,7 @@ def main():
 
     if args.execprog:
         new_config['execprog'] = args.execprog
-    if os.environ.get('VM_SHARED_FOLDER', None) is not None:
+    if os.environ.get('QEMU_9P_SHARED_FOLDER', None) is not None:
         new_config['vm_shared_folder'] = True
 
     if new_config != json_config:
@@ -41,7 +41,7 @@ def main():
 
             if 'vm_shared_folder' in new_config:
                 f.write('\n')
-                f.write('mount /dev/sdc1 /mnt\n')
+                f.write('mount -t 9p -o trans=virtio test_mount /mnt -oversion=9p2000.L,posixacl,msize=104857600,cache=loose\n')
 
             if 'execprog' in new_config:
                 execprog = new_config['execprog']
