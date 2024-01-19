@@ -12,7 +12,8 @@ def main():
     parser.add_argument('--lto-flags', dest='lto_flags', action=argparse.BooleanOptionalAction)
     args = parser.parse_args()
 
-    passes_array = args.passes.split(' ')
+    # passing in "{{.CLI_ARGS}}" as an argument transforms into "$'argument1' $'argument2'"
+    passes_array = args.passes.split('$')
     repos = os.getenv('REPOS', '').split()
     repos = [r[:-1] if r.endswith('/') else r for r in repos]
 
@@ -21,6 +22,11 @@ def main():
     for pass_item in passes_array:
         compile_pass = False
         lto_pass = False
+
+        # Remove tabs & quotes within the string
+        pass_item = pass_item.replace("\\t", '').strip()
+        if len(pass_item) > 0 and pass_item[0] == "'" and pass_item[-1] == "'":
+            pass_item = pass_item[1:-1]
 
         if pass_item.startswith("compile:") and args.compile_flags:
             pass_item = pass_item[len("compile:"):]
@@ -78,7 +84,7 @@ def main():
 
     if args.lto_flags:
         old_pm = os.getenv('PASS_MANAGER', None)
-        if old_pm:
+        if old_pm == 'oldpm':
             flags += " -plugin-opt=legacy-pass-manager"
 
     print(flags)
