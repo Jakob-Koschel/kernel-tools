@@ -20,8 +20,9 @@ if [[ $TYPE = "syzkaller" ]]; then
   DRIVE="file=${SYZKALLER_IMG}/${SYZKALLER_DISTRIBUTION}.img,format=raw"
   APPEND="${APPEND} root=/dev/sda"
   if [ -n "${SYZKALLER_SSH_PORT}" ]; then
-    NET1="nic,model=e1000"
-    NET2="user,host=10.0.2.10,hostfwd=tcp::${SYZKALLER_SSH_PORT}-:22"
+    QEMU_NET_DEVICE="e1000,netdev=net0"
+    QEMU_NETDEV="user,id=net0"
+    QEMU_SSH_PORT="${SYZKALLER_SSH_PORT}"
   fi
   HDB="fat:${SYZKALLER_BIN}/linux_amd64"
 else
