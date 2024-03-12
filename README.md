@@ -22,6 +22,10 @@ sudo snap install task --classic
 ```
 
 Install a recent [golang](https://go.dev/doc/install) (the apt one is usually too old).
+or on Ubuntu:
+```
+sudo snap install go --classic
+```
 
 Install the usual dependencies:
 ```
