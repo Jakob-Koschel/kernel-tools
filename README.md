@@ -123,4 +123,4 @@ You can get inspired by [kernel-tools-template-repo](https://github.com/Jakob-Ko
 
 ## Share files with the VM
 
-You can set `VM_SHARED_FOLDER` to share a directory with the VM.
+You can set `QEMU_9P_SHARED_FOLDER` to share a directory with the VM.
