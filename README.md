@@ -4,7 +4,7 @@ This repository *should* make it easy to run LLVM LTO passes on the Linux kernel
 
 To run it you need to set the following environment variables in your shell or in a `.env` file:
 
-* `LLVMPREFIX`: by default points to the `llvm-project` directory (created with `task llvm:clone`), you can overwrite it with your own or for example `usr/lib/llvm-12`.
+* `LLVMPREFIX`: by default points to the `llvm-project` directory (created with `task llvm:clone`), you can overwrite it with your own or for example `/usr/lib/llvm-12`.
 * `KERNEL`: should point to the Linux kernel repo.
 * `REPOS` should point to the directories holding the LLVM LTO passes and runtimes (space separated).
 
