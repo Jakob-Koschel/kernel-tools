@@ -65,6 +65,10 @@ tasks:
       - rm {{.CONFIG_DIR}}/kernel-tools.yml
       - rm {{.CONFIG_DIR}}/bits/kernel-tools-kernel.yml
       - mv {{.CONFIG_DIR}}/kernel-tools.config {{.KERNEL}}/.config
+      - |
+        cd {{.KERNEL}} && scripts/kconfig/merge_config.sh -m \
+          .config {{.ROOT}}/kernel-configs/syzkaller.config
+      - task kernel:make -- olddefconfig
 
   test:
     desc: test syzkaller

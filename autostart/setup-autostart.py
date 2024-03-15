@@ -49,7 +49,8 @@ def main():
                 f.write('mkdir /syzkaller\n')
                 f.write('cp /mnt-syzkaller/* /syzkaller\n')
                 f.write('cd /syzkaller\n')
-                f.write(f'./syz-execprog -executor=./syz-executor -repeat=0 -procs=1 -cover=1 /mnt/{execprog}\n')
+                f.write(f'./syz-execprog -executor=./syz-executor -repeat=1 -procs=1 -cover=1 /mnt/{execprog}\n')
+                f.write(f'echo c > /proc/sysrq-trigger\n')
 
     subprocess.run(['bash', f"{script_path}/install-autostart.sh"])
 

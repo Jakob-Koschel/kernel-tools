@@ -13,6 +13,7 @@ tasks:
       - ./scripts/run-qemu.sh {{.CLI_ARGS}}
     env:
       ATTACH_GDB: "{{.ATTACH_GDB}}"
+      EXECPROG: "{{.EXECPROG}}"
 
   qemu-gdb:
     desc: run qemu with attaching gdb

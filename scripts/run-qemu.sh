@@ -14,6 +14,12 @@ QEMU_CPU="${QEMU_CPU:=qemu64,+smep,+smap}"
 ENABLE_SNAPSHOT=1
 ARCH="x86_64"
 
+if [ -n "$EXECPROG" ]; then
+  # forces qemu to stop on a panic so we are not stuck manually stopping qemu
+  # kernel needs to be compiled with CONFIG_MAGIC_SYSRQ=y for this to work
+  APPEND+=" panic=-1"
+fi
+
 TYPE=$1
 if [[ $TYPE = "syzkaller" ]]; then
   INITRD=
