@@ -82,7 +82,8 @@ tasks:
     cmds:
       - |
         TEMPLATE="$(cat {{.ROOT}}/syzkaller.cfg.template)" && \
-          eval "echo \"${TEMPLATE}\"" > {{.SYZKALLER_CFG}}
+            TEMPLATE="${TEMPLATE//\"/\\\"}" && \
+            eval "echo \"${TEMPLATE}\"" > {{.SYZKALLER_CFG}}
     env:
       SYZKALLER_WORKDIR: '{{.ROOT}}/out/syzkaller-workdir'
 
